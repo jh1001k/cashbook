@@ -6,6 +6,7 @@ import com.gdu.cashbook1.vo.LoginMember;
 import com.gdu.cashbook1.vo.Member;
 @Mapper
 public interface MemberMapper {
+	public String selectMemberId(String memberIdCheck);
 	public LoginMember selectLoginMember(LoginMember loginMember);
 	public void addMember(Member member);
 }

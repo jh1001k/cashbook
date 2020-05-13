@@ -14,6 +14,19 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.btn {
+		font-size: 16px; 
+		color: rgb(255, 255, 255); 
+		text-align: center; 
+		line-height: 2.5em; 
+		border-top-left-radius: 4px; 
+		border-top-right-radius: 4px; 
+		border-bottom-right-radius: 4px; 
+		border-bottom-left-radius: 4px; 
+		background-color: rgb(52, 152, 219);
+	}
+</style>
 <script>
 $(document).ready(function(){
 	$('#btn').click(function(){
@@ -24,19 +37,30 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
+<div align="center">
+	<br><br><br><br>
 	<h1>로그인</h1>
 	<form id="loginForm" method="post" action="/login">
-		<div>
-			member_id :
-			<input type="text" id="memberId" name="memberId">
+		<div style="padding:10px;">
+			<input type="text"  placeholder="아이디" id="memberId" name="memberId"  class="col-sm-4" />
+	 	</div>
+	 	<div style="padding:10px;">
+			<input type="password" placeholder="비밀번호" id="memberPw" name="memberPw" class="col-sm-4" />
 	 	</div>
 	 	<div>
-			member_pw :
-			<input type="password" id="memberPw" name="memberPw">
+	 		<span th:text="${msg}"></span>
 	 	</div>
+	 	<br><br>
+	 	<div style="padding:5px;">
+	 		<button type="button" id="btn" class="btn col-sm-4">로그인</button>
+	 	</div>
+	 	<br>
 	 	<div>
-	 		<button type="button" id="btn">로그인</button>
+	 		<a href="/addMember" class="btn col-sm-4">회원가입</a>
 	 	</div>
  	</form>
+</div>
+</div>
 </body>
 </html>
