@@ -14,6 +14,13 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<style type="text/css">
+	#wrapper {
+		width:500px;
+		margin:0 auto;
+		border:1px solid #000;
+	}
+</style>
 <script>
 let helperInit = function() {
 	$("#idHelper").text("");
@@ -60,7 +67,9 @@ $(document).ready(function(){
 <body>
 <div class="container">
 	<div align="center">
+	<br><br><br><br>
 		<h1>회원가입</h1>
+		<br><br>
 		<form id="myform" method="post" action="/addMember">
 			<div align="left" class="col-sm-4 ">
 				 아이디 
@@ -110,6 +119,7 @@ $(document).ready(function(){
 				<input type="text" name="memberEmail" id="memberEmail" class="col-sm-4" /> 
 				<span id="emailHelper"></span>
 			</div>
+			<br><br>
 			<button type="button" id="btn" class="btn btn-primary col-sm-4 text-white">회원가입</button>
 		</form>
 	</div>

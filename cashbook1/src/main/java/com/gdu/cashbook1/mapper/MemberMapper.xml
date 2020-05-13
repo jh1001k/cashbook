@@ -3,6 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.MemberMapper">
+	<select id="selectLoginMember" parameterType="com.gdu.cashbook1.vo.LoginMember" resultType="com.gdu.cashbook1.vo.LoginMember">
+		SELECT
+			member_id memberId,
+			member_pw memberPw
+		FROM member
+		WHERE member_id = #{memberId}
+		AND member_pw = #{memberPw}
+	</select>
  	<insert id="addMember" parameterType="com.gdu.cashbook1.vo.Member">
  		INSERT INTO member(
  		member_id,
