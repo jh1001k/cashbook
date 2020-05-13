@@ -4,9 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.MemberMapper">
  	<insert id="addMember" parameterType="com.gdu.cashbook1.vo.Member">
- 		INSERT INTO 
- 			member(member_id, member_pw, member_name, member_phone, member_email, member_addr)
- 		VALUES
- 			(#{memberId}, #{memberPw}, #{memberName}, #{memberPhone}, #{memberEmail}, #{memberAddr});
+ 		INSERT INTO member(
+ 		member_id,
+ 		member_pw,
+ 		member_name,
+ 		member_phone,
+ 		member_email,
+ 		member_addr
+ 		) VALUES (
+ 		#{memberId},
+ 		#{memberPw},
+ 		#{memberName},
+ 		#{memberPhone},
+ 		#{memberEmail},
+ 		#{memberAddr}
+ 		)
  	</insert> 
 </mapper>
