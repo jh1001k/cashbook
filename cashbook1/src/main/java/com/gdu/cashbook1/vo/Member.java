@@ -7,6 +7,14 @@ public class Member {
 	private String memberAddr;
 	private String memberPhone;
 	private String memberEmail;
+	private String memberDate;
+
+	public String getMemberDate() {
+		return memberDate;
+	}
+	public void setMemberDate(String memberDate) {
+		this.memberDate = memberDate;
+	}
 	public String getMemberId() {
 		return memberId;
 	}
@@ -46,7 +54,8 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
-				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + "]";
+				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail
+				+ ", memberDate=" + memberDate + "]";
 	}
 	@Override
 	public int hashCode() {

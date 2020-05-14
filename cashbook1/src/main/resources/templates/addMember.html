@@ -26,6 +26,7 @@
 		border-bottom-left-radius: 4px; 
 		background-color: rgb(52, 152, 219);
 	}
+	
 </style>
 <script>
 let helperInit = function() {
@@ -35,6 +36,7 @@ let helperInit = function() {
 	$("#addrHelper").text("");
 	$("#phoneHelper").text("");
 	$("#emailHelper").text("");
+	$("memberIdCheckHelper").text("");
 };
 $(document).ready(function(){
 	$('#btn').click(function(){
@@ -68,7 +70,14 @@ $(document).ready(function(){
 	});
 	
 	$('#idBtn').click(function() {
-		$('#ifForm').submit();
+		/*if($('#memberIdCheckHep').val().length < 4){
+			$('#memberIdCheckHelper').text("id 4자이상");
+			$('#memberIdCheck').focus();
+			return;
+		} else {
+			$('#ifForm').submit();
+		}*/
+	$('#ifForm').submit();
 	});
 });
 </script>
@@ -85,10 +94,12 @@ $(document).ready(function(){
 			</div>
 			<div style="padding:5px;">
 				<input type="text" name="memberIdCheck" id="memberIdCheck" class="col-sm-4 "/> 
-				<button id="idBtn" type="button">중복체크</button>
+				<button id="idBtn" style="position=relative, left:200px" type="button">중복체크</button>
+				<span id="memberIdCheckHelper"></span>
+				<span th:text="${msg}"></span>
 			</div>
 			<div align="left" class="col-sm-4 ">
-				<span th:text="${msg}"></span>
+				
 			</div>
 		</form>
 		<form id="myform" method="post" action="/addMember">

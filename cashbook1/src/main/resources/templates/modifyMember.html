@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>modifyMember.html</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class=container>
+	<h1>회원정보 수정</h1>
+	<div th:include="/include/menu::sidemenu"></div>
+	<form method="post" action="/modifyMember">
+	<table class="table">
+		<tr>
+			<td>아이디</td>
+			<td ><input type="text" name="memberId" th:value="${member.memberId}" readonly="readonly"></td>
+		</tr>
+		<tr>
+			<td>주소</td>
+			<td>
+				<input th:value="${member.memberAddr}" type="text" name="memberAddr" id="memberAddr" placeholder="수정할 주소 입력" readonly="readonly" class="col-sm-4" />
+			</td>
+		</tr>
+		<tr>
+			<td>전화번호</td>
+			<td>
+				<input th:value="${member.memberPhone}" type="text" name="memberPhone" id="memberPhone" placeholder="수정할 전화번호 입력" class="col-sm-4" />
+			</td>
+		</tr>
+		<tr>
+			<td>이메일</td>
+			<td>
+				<input th:value="${member.memberEmail}" type="text" name="memberEmail" id="memberEmail" placeholder="수정할 이메일 입력" class="col-sm-4" />
+			</td>
+		</tr>
+		<tr>
+			<td>가입날짜</td>
+			<td><input type="text"  th:value="${member.memberDate}" name="memberDate"></td>
+		</tr>
+		<tr>
+			<td>비밀번호</td>
+			<td>
+				<input type="password" name="memberPw" id="memberPw" placeholder="비밀번호 입력" class="col-sm-4" />
+			</td>
+		</tr>
+		<tr>
+			<td>비밀번호 확인</td>
+			<td>
+				<input type="password" id="memberPw2" placeholder="비밀번호 확인 입력" class="col-sm-4" />
+			</td>
+		</tr>
+	</table>
+	<div>
+	<button type="submit">정보수정</button>
+	</div>
+	</form>
+	
+</div>
+</body>
+</html>

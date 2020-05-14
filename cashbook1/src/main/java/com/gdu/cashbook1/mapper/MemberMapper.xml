@@ -3,10 +3,47 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.MemberMapper">
+	<update id="modifyMember" parameterType="com.gdu.cashbook1.vo.Member">
+		UPDATE member
+		SET 
+			member_addr = #{memberAddr},
+			member_phone = #{memberPhone},
+			member_email = #{memberEmail},
+			member_pw = PASSWORD(#{memberPw})
+		WHERE member_id = #{memberId}
+	</update>
+
+	<insert id="addRemoveMember" parameterType="com.gdu.cashbook1.vo.LoginMember">
+		INSERT INTO memberid(
+			member_id
+		) VALUES (
+			#{memberId}
+		)
+	</insert>
+	
+	<delete id="removeMember" parameterType="com.gdu.cashbook1.vo.LoginMember">
+		DELETE FROM member
+		WHERE member_id = #{memberId}
+	</delete>
+	<select id="selectMemberOne" parameterType="com.gdu.cashbook1.vo.LoginMember" resultType="com.gdu.cashbook1.vo.Member">
+		SELECT
+			member_id memberId,
+			member_name memberName,
+			member_addr memberAddr,
+			member_phone memberPhone,
+			member_email memberEmail,
+			member_date memberDate
+		FROM member
+		WHERE member_id = #{memberId}
+	</select>
+
 	<select id="selectMemberId" parameterType="String" resultType="String">
 		SELECT
-			member_id memberId
-		FROM member
+			member_id
+		FROM (
+			SELECT member_id FROM member
+			UNION
+			SELECT member_id FROM memberid) t
 		WHERE member_id = #{memberIdCheck}
 	</select>
 	
@@ -16,7 +53,7 @@
 			member_pw memberPw
 		FROM member
 		WHERE member_id = #{memberId}
-		AND member_pw = #{memberPw}
+		AND member_pw = PASSWORD(#{memberPw})
 	</select>
  	<insert id="addMember" parameterType="com.gdu.cashbook1.vo.Member">
  		INSERT INTO member(
@@ -25,14 +62,16 @@
  		member_name,
  		member_phone,
  		member_email,
- 		member_addr
+ 		member_addr,
+ 		member_date
  		) VALUES (
  		#{memberId},
- 		#{memberPw},
+ 		PASSWORD(#{memberPw}),
  		#{memberName},
  		#{memberPhone},
  		#{memberEmail},
- 		#{memberAddr}
+ 		#{memberAddr},
+ 		NOW()
  		)
  	</insert> 
 </mapper>

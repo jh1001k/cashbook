@@ -19,6 +19,49 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("/modifyMember")
+	public String modifyMember(HttpSession session, Model model) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		model.addAttribute("member", member);
+		return "modifyMember";
+	}
+	
+	@PostMapping("/modifyMember")
+	public String modifyMember(HttpSession session, Member member) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		System.out.println(member);
+		int temp = memberService.modifyMember(member);
+		System.out.println(temp);
+		return "redirect:/memberInfo";
+	}
+	
+	@GetMapping("/removeMember")
+	public String removeMember(HttpSession session, LoginMember loginMember, String memberId) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		memberService.removeMember(loginMember, memberId);
+		
+		session.invalidate(); // 세션 초기화
+		return "redirect:/logout";
+	}
+	
+	@GetMapping("/memberInfo") //회원정보
+	public String memberInfo(HttpSession session, Model model) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		Member member = memberService.getMemberOne((LoginMember)(session.getAttribute("loginMember")));
+		System.out.println(member);
+		model.addAttribute("member", member);
+		return "memberInfo";
+	}
+	
 	@PostMapping("/checkMemberId") // 아이디 중복검사
 	public String checkMemberId(Model model, @RequestParam("memberIdCheck") String memberIdCheck, HttpSession session) { // 값이 하나만넘어와서 RequestParam 사용
 		if(session.getAttribute("loginMember") != null) {
@@ -59,7 +102,7 @@ public class MemberController {
 			return "login";
 		} else { //로그인 성공시
 			session.setAttribute("loginMember", returnLoginMember);
-			return "redirect:/";
+			return "redirect:/home";
 		}
 	
 	}
