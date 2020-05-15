@@ -51,6 +51,10 @@ $(document).ready(function(){
 	 	<div>
 	 		<span th:text="${msg}"></span>
 	 	</div>
+	 	<div>
+	 		<a th:href="@{/findMemberId}">아이디가 기억나지 않아요</a><!-- 이메일 입력 : 이메일에 ID를 보냄 -->
+	 		<a th:href="@{/findMemberPw}">비밀번호가 기억나지 않아요</a><!-- 아이디, 이메일 : 이메일로 관리자가 변경된 비밀번호를 보냄 -->
+	 	</div>
 	 	<br><br>
 	 	<div style="padding:5px;">
 	 		<button type="button" id="btn" class="btn col-sm-4">로그인</button>

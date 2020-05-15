@@ -19,6 +19,43 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session) {
+			if(session.getAttribute("loginMember") != null) {
+				return "redirect:/";
+			}
+			return "findMemberPw";
+	}
+	@PostMapping("/findMemberPw")
+	public String findMemberPw(HttpSession session, Model model, Member member) {
+		System.out.println(member);
+		int row = this.memberService.getMemberPw(member);
+		String msg = "아이디와 비밀번호를 입력하세요";
+		if(row == 1) {
+			msg = "비밀번호를 입력한 메일로 전송하였습니다.";
+		}
+		model.addAttribute("msg", msg);
+		return "findMemberPw";
+	}
+	
+	@GetMapping("/findMemberId")
+	public String findMemberId(HttpSession session) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		return "findMemberId";
+	}
+	@PostMapping("/findMemberId")
+	public String findMemberId(HttpSession session, Model model, Member member) {
+		if(session.getAttribute("loginMember") != null) {
+			return "redirect:/";
+		}
+		String memberIdPart = memberService.selectMemberIdByMember(member);
+		String msg = "당신의 아이디는 "+memberIdPart+" 입니다.";
+		model.addAttribute("msg", msg);
+		return "findMemberId";
+	}
+	
 	@GetMapping("/modifyMember")
 	public String modifyMember(HttpSession session, Model model) {
 		if(session.getAttribute("loginMember") == null) {
@@ -40,7 +77,7 @@ public class MemberController {
 		return "redirect:/memberInfo";
 	}
 	
-	@GetMapping("/removeMember")
+	@GetMapping("/removeMember") // 회원탈퇴
 	public String removeMember(HttpSession session, LoginMember loginMember, String memberId) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
@@ -48,7 +85,7 @@ public class MemberController {
 		memberService.removeMember(loginMember, memberId);
 		
 		session.invalidate(); // 세션 초기화
-		return "redirect:/logout";
+		return "remove"; 
 	}
 	
 	@GetMapping("/memberInfo") //회원정보

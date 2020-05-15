@@ -14,24 +14,35 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+</script>
 </head>
 <body>
-	<form method="post" action="/removeMember">
+	<h1>아이디 찾기</h1>
+	<form id="myform" method="post" th:action="@{/findMemberId}">
 		<div>
-			비밀번호 입력
+			member_name:
+			<input type="text" name="memberName">
 		</div>
 		<div>
-			<input type="text" id="memberPw" name="memberPw" />
+			member_phone:
+			<input type="text" name="memberPhone">
 		</div>
 		<div>
-			비밀번호 확인
+			member_Email:
+			<input type="text" name="memberEmail">
 		</div>
 		<div>
-			<input type="text" id="memberPw2" name="memberPw2" />
+			<span th:text="${msg}"></span>
 		</div>
 		<div>
-			<button type="submit">회원 탈퇴</button>
+			<button type="button" id="btn">아이디찾기</button>
 		</div>
-	</form> 
+	</form>
 </body>
 </html>

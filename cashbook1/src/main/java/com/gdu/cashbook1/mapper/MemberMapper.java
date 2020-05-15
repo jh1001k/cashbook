@@ -6,6 +6,9 @@ import com.gdu.cashbook1.vo.Member;
 
 @Mapper
 public interface MemberMapper {
+	
+	public int updateMemberPw(Member member);
+	public String selectMemberIdByMember(Member member); // 아이디 찾기 
 	public int modifyMember(Member member); // 회원정보수정
 	public int addRemoveMember(String memberId); // 탈퇴 시 아이디 값 memberid 테이블에 저장
 	public int removeMember(LoginMember loginMember); // 회원정보 폼 회원탈퇴
