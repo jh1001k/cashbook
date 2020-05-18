@@ -73,8 +73,8 @@ public class MemberController {
 			return "redirect:/";
 		}
 		System.out.println(member);
-		int temp = memberService.modifyMember(member);
-		System.out.println(temp);
+		memberService.modifyMember(member);
+
 		return "redirect:/memberInfo";
 	}
 	

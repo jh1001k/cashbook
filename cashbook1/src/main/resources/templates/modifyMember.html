@@ -19,12 +19,17 @@
 <div class=container>
 	<h1>회원정보 수정</h1>
 	<div th:include="/include/menu::sidemenu"></div>
-	<form method="post" action="/modifyMember">
+	<form method="post" action="/modifyMember" enctype="multipart/form-data">
 	<table class="table">
 		<tr>
 			<td>사진</td>
 			<td>
-				<img th:src="@{${'/upload/'+ member.memberPic}}">
+				<div>
+					<img th:src="@{${'/upload/'+ member.memberPic}}">
+				</div>
+				<div>
+					<input type="file" name="memberPic" th:value="${member.memberPic}" id="" />
+				</div>
 			</td>
 		</tr>
 		<tr>

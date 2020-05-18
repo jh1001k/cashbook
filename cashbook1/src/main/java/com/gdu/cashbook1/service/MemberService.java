@@ -54,53 +54,11 @@ public class MemberService {
 	public String selectMemberIdByMember(Member member) {
 		return memberMapper.selectMemberIdByMember(member);
 	}
-	
-	public int modifyMember(Member member) {
-		return memberMapper.modifyMember(member);
-	}
-	
-	public void removeMember(LoginMember loginMember, String memberId) {
-		// 1. 멤버 이미지 파일 삭제
-		// 1.1 파일이름 select member_pic from member
-		String memberPic = memberMapper.selectMemberPic(memberId);
-		File file = new File(path+memberPic);
-		if(file.exists()) { // file.exists() : 경로에 file/directory(folder)가 존재하는지 확인한다.
-			file.delete(); // 존재하는 파일을 삭제함.
-		}
-		
-		System.out.println(loginMember.getMemberId() + "로그인아이디");
-		memberMapper.addRemoveMember(memberId);
-		memberMapper.removeMember(loginMember);
-	} // 회원탈퇴
-	
-	public Member getMemberOne(LoginMember loginMember) {
-		return memberMapper.selectMemberOne(loginMember);
-	} // 회원정보
-	
-	public String checkMemberId(String memberIdCheck) {
-		return memberMapper.selectMemberId(memberIdCheck);
-	} // 회원가입 아이디 중복체크
-	
-	public LoginMember login(LoginMember loginMember) {
-		return memberMapper.selectLoginMember(loginMember);
-	} // 로그인
-	
-	public int addMember(MemberForm memberForm) {
+	// 회원정보 수정
+	public int modifyMember(MemberForm memberForm) {
 		MultipartFile mf = memberForm.getMemberPic();
-		// 확장자 필요
 		String originName = mf.getOriginalFilename();
-		/*
-		if(mf.getContentType().equals("image/png") || mf.getContentType().equals("image/jpg")) {
-			//  업로드
-		} else {
-			// 업로드 실패
-		}
-		*/
-		System.out.println(originName+"<--originName");
-		int lastDot = originName.lastIndexOf(".");  // 좌석표.png
-		String extension = originName.substring(lastDot);
-		// 새로운 이름을 생성 : UUID
-		String memberPic = memberForm.getMemberId()+extension;
+		//System.out.println(originName+"<--origib");
 		// 1. db저장
 		Member member = new Member();
 		member.setMemberAddr(memberForm.getMemberAddr());
@@ -110,23 +68,92 @@ public class MemberService {
 		member.setMemberName(memberForm.getMemberName());
 		member.setMemberPhone(memberForm.getMemberPhone());
 		member.setMemberPw(memberForm.getMemberPw());
-		member.setMemberPic(memberPic);
-		System.out.println(member+"<--MemberService.addmember:member");
-		int row = memberMapper.addMember(member);
-		// 2. 파일 저장
-		File file = new File(path+memberPic);
-		System.out.println(memberPic+"<--지선");
 		
-		try{
-			mf.transferTo(file);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-			// Exception
-			// 1. 예외처리를 해야만 문법적으로 이상이 없는 예외
-			// 2. 예외처리를 코드에서 구현하지 않아도 아무 문제 없는 예외  RuntimeException()
+		// 파일 저장 삭제
+		//File file = new File(path+memberPic);
+		//if(o) { // defult 값이면 그대로??? 아니면 수정 저장?
+			
+		//} else {
+			
+		//}
+		return memberMapper.modifyMember(member);
+	}
+	
+	//회원가입
+		public int addMember(MemberForm memberForm) {
+			MultipartFile mf = memberForm.getMemberPic();
+			// 확장자 필요
+			String originName = mf.getOriginalFilename();
+			/*
+			if(mf.getContentType().equals("image/png") || mf.getContentType().equals("image/jpg")) {
+				//  업로드
+			} else {
+				// 업로드 실패
+			}
+			*/
+			System.out.println(originName+"<--originName");
+			int lastDot = originName.lastIndexOf(".");  // 좌석표.png
+			String extension = originName.substring(lastDot);
+			// 새로운 이름을 생성 : UUID
+			String memberPic = memberForm.getMemberId()+extension;
+			// 1. db저장
+			Member member = new Member();
+			member.setMemberAddr(memberForm.getMemberAddr());
+			member.setMemberDate(memberForm.getMemberDate());
+			member.setMemberEmail(memberForm.getMemberEmail());
+			member.setMemberId(memberForm.getMemberId());
+			member.setMemberName(memberForm.getMemberName());
+			member.setMemberPhone(memberForm.getMemberPhone());
+			member.setMemberPw(memberForm.getMemberPw());
+			member.setMemberPic(memberPic);
+			System.out.println(member+"<--MemberService.addmember:member");
+			int row = memberMapper.addMember(member);
+			// 2. 파일 저장
+			File file = new File(path+memberPic);
+			System.out.println(memberPic);
+			
+			try{
+				mf.transferTo(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+				// Exception
+				// 1. 예외처리를 해야만 문법적으로 이상이 없는 예외
+				// 2. 예외처리를 코드에서 구현하지 않아도 아무 문제 없는 예외  RuntimeException()
+			} 
+			
+			return row;
 		} 
-		
-		return row;
-	} //회원가입
+	
+	// 회원탈퇴
+	public void removeMember(LoginMember loginMember, String memberId) {
+		// 1. 멤버 이미지 파일 삭제
+		// 1.1 파일이름 select member_pic from member
+		String memberPic = memberMapper.selectMemberPic(memberId);
+		File file = new File(path+memberPic);
+		if(file.exists()) { // file.exists() : 경로에 file/directory(folder)가 존재하는지 확인한다.
+			file.delete(); // 존재하는 파일을 삭제함.
+		}
+	
+		System.out.println(loginMember.getMemberId() + "로그인아이디");
+		memberMapper.addRemoveMember(memberId);
+		memberMapper.removeMember(loginMember);
+	} 
+	
+	// 회원정보
+	public Member getMemberOne(LoginMember loginMember) {
+		return memberMapper.selectMemberOne(loginMember);
+	} 
+	
+	// 회원가입 아이디 중복체크
+	public String checkMemberId(String memberIdCheck) {
+		return memberMapper.selectMemberId(memberIdCheck);
+	}
+	
+	// 로그인
+	public LoginMember login(LoginMember loginMember) {
+		return memberMapper.selectLoginMember(loginMember);
+	} 
+	
+	
 }
