@@ -70,7 +70,7 @@ $(document).ready(function(){
 	});
 	
 	$('#idBtn').click(function() {
-		/*if($('#memberIdCheckHep').val().length < 4){
+		/*if($('#memberIdCheck').val().length < 4){
 			$('#memberIdCheckHelper').text("id 4자이상");
 			$('#memberIdCheck').focus();
 			return;
@@ -98,11 +98,14 @@ $(document).ready(function(){
 				<span id="memberIdCheckHelper"></span>
 				<span th:text="${msg}"></span>
 			</div>
-			<div align="left" class="col-sm-4 ">
-				
-			</div>
 		</form>
-		<form id="myform" method="post" action="/addMember">
+		<form id="myform" method="post" action="/addMember" enctype="multipart/form-data">
+			<div align="left" class="col-sm-4 ">
+				사진
+			</div>
+			<div style="padding:5px;">
+				<input type="file" name="memberPic" id="" />
+			</div>
 			<div align="left" class="col-sm-4 ">
 				 아이디 
 			</div>

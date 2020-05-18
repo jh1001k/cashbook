@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.MemberMapper">
+	<select id="selectMemberPic" parameterType="String" resultType="String">
+		SELECT member_pic
+		FROM member
+		WHERE member_id = #{memberId}
+	</select>
+	
 	<!-- 비밀번호 찾기
 		1. 사용자가 입력한 id와 email이 일치하면 password를 랜덤문자열로 변경 update
 		2. 사용자가 입력한 id의 변경될 password를 select
@@ -89,7 +95,8 @@
  		member_phone,
  		member_email,
  		member_addr,
- 		member_date
+ 		member_date,
+ 		member_pic
  		) VALUES (
  		#{memberId},
  		PASSWORD(#{memberPw}),
@@ -97,7 +104,8 @@
  		#{memberPhone},
  		#{memberEmail},
  		#{memberAddr},
- 		NOW()
+ 		NOW(),
+ 		#{memberPic}
  		)
  	</insert> 
 </mapper>

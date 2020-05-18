@@ -7,6 +7,8 @@ import com.gdu.cashbook1.vo.Member;
 @Mapper
 public interface MemberMapper {
 	
+	
+	public String selectMemberPic(String memberId);
 	public int updateMemberPw(Member member);
 	public String selectMemberIdByMember(Member member); // 아이디 찾기 
 	public int modifyMember(Member member); // 회원정보수정

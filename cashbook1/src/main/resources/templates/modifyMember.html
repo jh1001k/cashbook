@@ -22,6 +22,12 @@
 	<form method="post" action="/modifyMember">
 	<table class="table">
 		<tr>
+			<td>사진</td>
+			<td>
+				<img th:src="@{${'/upload/'+ member.memberPic}}">
+			</td>
+		</tr>
+		<tr>
 			<td>아이디</td>
 			<td ><input type="text" name="memberId" th:value="${member.memberId}" readonly="readonly"></td>
 		</tr>

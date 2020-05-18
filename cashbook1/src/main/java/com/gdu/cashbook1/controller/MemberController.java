@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gdu.cashbook1.service.MemberService;
 import com.gdu.cashbook1.vo.LoginMember;
 import com.gdu.cashbook1.vo.Member;
+import com.gdu.cashbook1.vo.MemberForm;
 
 @Controller
 public class MemberController {
@@ -85,7 +86,7 @@ public class MemberController {
 		memberService.removeMember(loginMember, memberId);
 		
 		session.invalidate(); // 세션 초기화
-		return "remove"; 
+		return "redirect:/";
 	}
 	
 	@GetMapping("/memberInfo") //회원정보
@@ -108,11 +109,11 @@ public class MemberController {
 		String confirmMemberId = memberService.checkMemberId(memberIdCheck);
 		if(confirmMemberId != null) {
 			// 아이디를 사용할 수 없습니다.
-			System.out.println(confirmMemberId+"유석");
+			System.out.println(confirmMemberId);
 			model.addAttribute("msg", "사용중인 아이디입니다.");
 		} else {
 			// 아이디를 사용할 수 있습니다.
-			System.out.println(confirmMemberId+"지선");
+			System.out.println(confirmMemberId);
 			model.addAttribute("memberIdCheck", memberIdCheck);
 		}
 		return "addMember";
@@ -165,13 +166,21 @@ public class MemberController {
 	}
 	
 	@PostMapping("/addMember") // 회원가입 Action
-	public String addMember(Member member, HttpSession session) { // Command 객체, 도메인 객체
+	public String addMember(MemberForm memberForm, HttpSession session) { // Command 객체, 도메인 객체
 		// 로그인 상태
 		if(session.getAttribute("loginMember") != null) {
 			return "redirect:/";
 		}
-		System.out.println(member.toString());
-		memberService.addMember(member);
+		System.out.println(memberForm+"<--memberForm");
+		//System.out.println(member.toString());
+		
+		if(memberForm.getMemberPic() != null) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/gif")) {
+				return "redirect:/addMember";
+			}
+		}
+		
+		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}
 }
