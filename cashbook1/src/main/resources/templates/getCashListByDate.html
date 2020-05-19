@@ -22,10 +22,15 @@
 		<h1>가계부</h1>
 	</div>
 	<div align="center">
-		<h3 th:text="${today}"></h3>
+		<h3 th:text="${day}"></h3>
+		<div>
+			<a th:href="@{/getCashListByDate(day=${day.minusDays(1)})}">이전</a>
+			<a th:href="@{/getCashListByDate(day=${day.plusDays(1)})}">다음</a>
+		</div>
 		<table class="table">
 			<thead>
 				<tr>
+					<th>&nbsp;</th>
 					<th>카테고리</th>
 					<th>수입</th>
 					<th>지출</th>
@@ -36,18 +41,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="cash : ${cashList}">
-					<td th:text="${cash.categoryName}">categoryName</td>
-					<td th:text="${cash.cashPrice}">cashPrice</td>
-					<td th:text="${cash.cashPrice}">cashPrice</td>
-					<td th:text="${cash.cashPlace}">cashPlace</td>
-					<td th:text="${cash.cashMemo}">cashMemo</td>
-					<td th:text="${cash.categoryName}">delete</td>
-					<td th:text="${cash.categoryName}">update</td>
+				<tr th:each="cash,index : ${cashList}">
+					<td th:text="${index.index}+1"></td>
+					<td th:text="${cash.categoryName}"></td>
+					<!-- thymeleaf if~else문 : if/unless-->
+					<td th:if="${cash.cashKind} == '수입'" th:text="${'+' + cash.cashPrice}"></td>
+					<td th:unless="${cash.cashKind} == '수입'"></td>
+					<!-- thymeleaf if~else문 : if/unless-->
+					<td th:if="${cash.cashKind} == '지출'" th:text="${'-' + cash.cashPrice}"></td>
+					<td th:unless="${cash.cashKind} == '지출'"></td>
+					<td th:text="${cash.cashPlace}"></td>
+					<td th:text="${cash.cashMemo}"></td>
+					<td><a th:href="@{/removeCashByDate(cashNo=${cashNo})}">삭제</a></td>
+					<td><a th:href="@{/addCashByDate}">수정</a></td>
 				</tr>
 			</tbody>
 		</table>
-		<a th:href="">회원탈퇴</a>
+		<div>
+			(수입+지출)합계 : <span th:text="${cashKindSum}"></span>
+		</div>
+		<div>
+			<a th:href="@{/addCashByDate}">입력</a>
+		</div>
 	</div>
 </div>
 

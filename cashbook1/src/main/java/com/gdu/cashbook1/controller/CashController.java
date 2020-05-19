@@ -1,17 +1,16 @@
 package com.gdu.cashbook1.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook1.service.CashService;
 import com.gdu.cashbook1.vo.Cash;
@@ -21,37 +20,53 @@ import com.gdu.cashbook1.vo.LoginMember;
 public class CashController {
 	@Autowired private CashService cashService;
 	
-	@GetMapping("/getCashListByDate")
-	public String getCashListByDate(HttpSession session, Model model) {
+	@GetMapping("/removeCashByDate") // 게시판 상세 리스트 삭제
+	public String removeCashByDate(HttpSession session, int cashNo) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		cashService.removeCashByDate(cashNo);
+		return "getCashListByDate";
+	}
+	
+	@GetMapping("/addCashByDate")
+	public String addCashByDate(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
+		return "addCash";
+	}
+	
+	@GetMapping("/getCashListByDate") // 로그인 사용자의 오늘날짜 cash 목록
+	public String getCashListByDate(HttpSession session, Model model, @RequestParam(value="day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
+		if(day == null) {
+			day = LocalDate.now();
+		}
+		System.out.println(day+"<--day");
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		
 		// 로그인 아이디
 		String loginMemberId = ((LoginMember)(session.getAttribute("loginMember"))).getMemberId();
-		/*
-		// 오늘 날짜를 구해서 원하는 문자열 형태로 변경
-		Calendar today = Calendar.getInstance(); // 날짜 받아오는 함수
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd"); // yyyy-mm-dd로 포맷 (원래는 엄청 긴 문자열로 나옴)
-		String strToday = sdf.format(today); 
-		System.out.println((strToday+"<--strToday"));
-		*/
-		LocalDate today = LocalDate.now();
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd"); // yyyy-mm-dd로 포맷 (원래는 엄청 긴 문자열로 나옴)
-		//String strToday = sdf.format(today); 
-		System.out.println(today+"<--strToday");
 		
 		Cash cash = new Cash(); // + id, + date("yyyy-mm-dd")
 		cash.setMemberId(loginMemberId);
-		cash.setCashDate(today);
+		cash.setCashDate(day);
 		
-		List<Cash> cashList = cashService.getCashListByDate(cash);
-		model.addAttribute("cashList", cashList);
-		model.addAttribute("today", today);
+		Map<String, Object> map = cashService.getCashListByDate(cash);
+		model.addAttribute("cashKindSum", map.get("cashKindSum"));
+		model.addAttribute("cashList", map.get("cashList"));
+		model.addAttribute("day", day);
 		
-		for(Cash c : cashList) {
+		
+		//debugging
+		/*
+		for(Cash c : map.get("cashList")) {
 			System.out.println(c);
 		}
-		
+		*/
 		return "getCashListByDate";
 	}
 }
