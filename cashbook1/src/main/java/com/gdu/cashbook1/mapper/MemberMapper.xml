@@ -37,7 +37,6 @@
 	<update id="modifyMember" parameterType="com.gdu.cashbook1.vo.Member">
 		UPDATE member
 		SET 
-			member_pic = #{memberPic},
 			member_addr = #{memberAddr},
 			member_phone = #{memberPhone},
 			member_email = #{memberEmail},	
