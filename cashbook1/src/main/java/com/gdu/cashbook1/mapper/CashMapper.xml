@@ -3,6 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.CashMapper">
+	<select id="selectDayAndPriceList" parameterType="java.util.Map" resultType="com.gdu.cashbook1.vo.DayAndPrice">
+		SELECT DAY(cash_date) as day,
+		SUM(CASE WHEN cash_kind = '수입' THEN cash_price
+		WHEN cash_kind = '지출' THEN -cash_price END) AS price
+		FROM cash
+		WHERE member_id = #{memberId}
+		AND YEAR(cash_date) = #{year}
+		AND MONTH(cash_date) = #{month}
+		GROUP BY DAY(cash_date)
+	</select>
+	
 	<delete id="deleteCashByDate" parameterType="int">
 		DELETE FROM cash
 		WHERE cash_no = #{cashNo}
