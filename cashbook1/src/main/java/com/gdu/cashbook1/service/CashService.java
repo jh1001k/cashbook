@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.cashbook1.mapper.CashMapper;
+import com.gdu.cashbook1.mapper.CategoryMapper;
 import com.gdu.cashbook1.vo.Cash;
 import com.gdu.cashbook1.vo.DayAndPrice;
 
@@ -16,6 +17,19 @@ import com.gdu.cashbook1.vo.DayAndPrice;
 @Transactional
 public class CashService {
 	@Autowired private CashMapper cashMapper;
+	@Autowired private CategoryMapper categoryMapper;
+	// 가계부 일자별 상세 리스트 수정
+	public List<Cash> selectCashListOne(int cashNo) {
+		List<Cash> list = cashMapper.selectCashListOne(cashNo);
+		return list;
+	}
+	// 카테고리네임 리스트 출력
+	public List<String> selectCategoryAll() {
+		List<String> list = categoryMapper.selectCategory();
+		System.out.println(list);
+		return list;
+	}
+	
 	public List<DayAndPrice> getCashAndPriceList(String memberId, int year, int month) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("memberId", memberId);
@@ -44,4 +58,5 @@ public class CashService {
 	public int addCashByDate(Cash cash) {
 		return cashMapper.insertCashByDate(cash); 
 	}
+	
 }

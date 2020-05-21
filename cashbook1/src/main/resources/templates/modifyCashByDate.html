@@ -25,20 +25,25 @@ $(document).ready(function() {
 <body>
 <div class="container">
 	<div th:include="/include/menu::sidemenu"></div>
-	
-	<form method="post" action="/addCashByDate" id="myform">
-		<table class="table">
+	<div align="center">
+		<h3>수입/지출 수정 </h3>
+	</div>
+	<form method="post" action="/modifyCashByDate" id="myform">
+		<table class="table" th:each="cashNoList : ${cashNoList}">
 			<tr>
 				<td>카테고리</td>
 				<td>
-					<input type="text" name="categoryName" id="categoryName" placeholder="카테고리 입력">
+					<input type="hidden" name="cashNo" id="cashNo" value="${cashNoList.cashNo}"/>
+					<select name="categoryName">
+							<option value="">선택</option>
+							 <option th:each="list : ${list}" th:value="${list.categoryName}" th:text="${list.categoryName}">수입</option>
+					</select>
 				</td>
 			</tr>
 			<tr>
 				<td>수입/지출</td>
 				<td>
-					<select name="cashKind">
-						<option value="">선택</option>
+					<select name="cashKind" th:value="${cashNoList.cashKind}">
 						<option value="+">수입</option>
 						<option value="-">지출</option>
 					</select>
@@ -47,19 +52,19 @@ $(document).ready(function() {
 			<tr>
 				<td>금액</td>
 				<td>
-					<input type="text" name="cashPrice" id="cashPrice" placeholder="금액 입력">
+					<input type="text" th:value="${cashNoList.cashPrice}" name="cashPrice" id="cashPrice" placeholder="금액 입력">
 				</td>
 			</tr>
 			<tr>
 				<td>장소</td>
 				<td>
-					<input type="text" name="cashPlace" id="cashPlace" placeholder="장소 입력">
+					<input type="text" th:value="${cashNoList.cashPlace}" name="cashPlace" id="cashPlace" placeholder="장소 입력">
 				</td>
 			</tr>
 			<tr>
 				<td>메모</td>
 				<td>
-					<input type="text" name="cashMemo" id="cashPrice" placeholder="메모 입력">
+					<input type="text" th:value="${cashNoList.cashMemo}" name="cashMemo" id="cashMemo" placeholder="메모 입력">
 				</td>
 			</tr>
 		</table>

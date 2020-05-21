@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook1.service.CashService;
@@ -22,6 +23,27 @@ import com.gdu.cashbook1.vo.LoginMember;
 @Controller
 public class CashController {
 	@Autowired private CashService cashService;
+	// 가계부 일자별 상세 리스트 수정 getMapping
+	@GetMapping("/modifyCashByDate")
+	public String modifyCashByDate(HttpSession session, Model model, @RequestParam("cashNo") int cashNo) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		List<String> list = cashService.selectCategoryAll();
+		List<Cash> cashNoList = cashService.selectCashListOne(cashNo);
+		model.addAttribute("cashNoList", cashNoList);
+		model.addAttribute("list", list);
+		System.out.println(list+"<--list");
+		return "modifyCashByDate";
+	}
+	// 가계부 일자별 상세 리스트 수정 postMapping
+	@PostMapping("/modifyCashByDate")
+	public String modifyCashByDate(HttpSession session, Cash cash) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		return null;
+	}
 	
 	@GetMapping("/removeCashByDate") // 게시판 상세 리스트 삭제
 	public String removeCashByDate(HttpSession session, @RequestParam("cashNo") int cashNo) {
@@ -29,7 +51,8 @@ public class CashController {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		return "getCashListByDate";
+		cashService.removeCashByDate(cashNo);
+		return "redirect:/getCashListByDate";
 	}
 		
 	@GetMapping("/getCashListByMonth")
@@ -58,6 +81,7 @@ public class CashController {
 		int month = cDay.get(Calendar.MONTH)+1;		
 		List<DayAndPrice> dayAndPriceList = cashService.getCashAndPriceList(memberId, year, month);
 		System.out.println(dayAndPriceList);
+		
 		// 디버깅코드
 		for(DayAndPrice dp : dayAndPriceList) {
 			System.out.println(dp);
@@ -77,13 +101,22 @@ public class CashController {
 	}
 	
 	@GetMapping("/addCashByDate")
-	public String addCashByDate(HttpSession session) {
+	public String addCashByDate(HttpSession session) {	
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
 		return "addCash";
 	}
-	 
+	
+	@PostMapping("/addCashByDate")
+	public String addCashByDate(HttpSession session, Cash cash) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		cashService.addCashByDate(cash);
+		return "getCashListByDate";
+	}
+	
 	@GetMapping("/getCashListByDate") // 로그인 사용자의 오늘날짜 cash 목록
 	public String getCashListByDate(HttpSession session, Model model, @RequestParam(value="day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		if(session.getAttribute("loginMember") == null) {

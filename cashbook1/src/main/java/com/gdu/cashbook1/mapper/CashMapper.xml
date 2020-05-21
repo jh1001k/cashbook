@@ -3,6 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.CashMapper">
+	<update id="updateCashList" parameterType="com.gdu.cashbook1.vo.Cash">
+		UPDATE cash
+		SET 
+	</update>
+	<select id="selectCashListOne"  parameterType="com.gdu.cashbook1.vo.Cash" resultType="com.gdu.cashbook1.vo.Cash">
+		SELECT 
+			cash_no cashNo,
+			cash_kind cashKind,
+			cash_price cashPrice,
+			cash_place cashPlace,
+			cash_memo cashMemo
+		FROM cash
+		WHERE cash_no = #{cashNo}
+	</select>
+
 	<select id="selectDayAndPriceList" parameterType="java.util.Map" resultType="com.gdu.cashbook1.vo.DayAndPrice">
 		SELECT DAY(cash_date) as day,
 		SUM(CASE WHEN cash_kind = '수입' THEN cash_price
@@ -40,11 +55,13 @@
 	<insert id="insertCashByDate" parameterType="com.gdu.cashbook1.vo.Cash">
 		INSERT INTO cash(
 			category_name,
+			cash_kind,
 			cash_price,
 			cash_place,
 			cash_memo
 		) VALUES (
 			#{categoryName},
+			#{cashKind},
 			#{cashPrice},
 			#{cashPlace},
 			#{cashMemo}

@@ -12,7 +12,7 @@ import com.gdu.cashbook1.vo.DayAndPrice;
 public interface CashMapper {
 	
 	public List<DayAndPrice> selectDayAndPriceList(Map<String, Object> map);
-	
+	public List<Cash> selectCashListOne(int cashNo);
 	public int deleteCashByDate(int cashNo);
 	public List<Cash> selectCashListByDate(Cash cash); // 로그인 사용자의 오늘날짜 cash 목록
 	public int selectCashKindSum(Cash cash); // 가계부 상세보기 합계
