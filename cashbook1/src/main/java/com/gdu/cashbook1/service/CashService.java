@@ -18,7 +18,12 @@ import com.gdu.cashbook1.vo.DayAndPrice;
 public class CashService {
 	@Autowired private CashMapper cashMapper;
 	@Autowired private CategoryMapper categoryMapper;
-	// 가계부 일자별 상세 리스트 수정
+	// 가계부 상세 페이지 수정
+	public int updateCash(Cash cash) {
+		return cashMapper.updateCash(cash);
+	}
+	
+	// cashNo별 리스트 출력
 	public List<Cash> selectCashListOne(int cashNo) {
 		List<Cash> list = cashMapper.selectCashListOne(cashNo);
 		return list;

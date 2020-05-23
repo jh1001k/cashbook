@@ -33,10 +33,10 @@ $(document).ready(function() {
 			<tr>
 				<td>카테고리</td>
 				<td>
-					<input type="hidden" name="cashNo" id="cashNo" value="${cashNoList.cashNo}"/>
+					<input type="hidden" name="cashNo" th:value="${cashNoList.cashNo}"/>
 					<select name="categoryName">
 							<option value="">선택</option>
-							 <option th:each="list : ${list}" th:value="${list.categoryName}" th:text="${list.categoryName}">수입</option>
+							<option th:each="list : ${list}" th:value="${list.categoryName}" th:text="${list.categoryName}"></option>
 					</select>
 				</td>
 			</tr>
@@ -44,8 +44,8 @@ $(document).ready(function() {
 				<td>수입/지출</td>
 				<td>
 					<select name="cashKind" th:value="${cashNoList.cashKind}">
-						<option value="+">수입</option>
-						<option value="-">지출</option>
+						<option value="수입">수입</option>
+						<option value="지출">지출</option>
 					</select>
 				</td>
 			</tr>

@@ -65,5 +65,4 @@ public class Cash {
 				+ categoryName + ", cashPrice=" + cashPrice + ", cashPlace=" + cashPlace + ", cashDate=" + cashDate
 				+ ", cashMemo=" + cashMemo + "]";
 	}
-	
 }

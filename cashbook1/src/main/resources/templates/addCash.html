@@ -26,12 +26,14 @@ $(document).ready(function() {
 <div class="container">
 	<div th:include="/include/menu::sidemenu"></div>
 	
-	<form method="post" action="/addCashByDate" id="myform">
+	<form method="post" th:action="@{/addCashByDate(day=${day})}" id="myform">
 		<table class="table">
 			<tr>
 				<td>카테고리</td>
 				<td>
-					<input type="text" name="categoryName" id="categoryName" placeholder="카테고리 입력">
+					<select id="categoryName" name="categoryName" > 
+						<option th:each="list : ${categoryList}" th:text="${list.categoryName}" th:value="${list.categoryName}"></option>
+					</select>
 				</td>
 			</tr>
 			<tr>
@@ -39,8 +41,8 @@ $(document).ready(function() {
 				<td>
 					<select name="cashKind">
 						<option value="">선택</option>
-						<option value="+">수입</option>
-						<option value="-">지출</option>
+						<option value="수입">수입</option>
+						<option value="지출">지출</option>
 					</select>
 				</td>
 			</tr>
@@ -59,12 +61,12 @@ $(document).ready(function() {
 			<tr>
 				<td>메모</td>
 				<td>
-					<input type="text" name="cashMemo" id="cashPrice" placeholder="메모 입력">
+					<input type="text" name="cashMemo" id="cashMemo" placeholder="메모 입력">
 				</td>
 			</tr>
 		</table>
 		<div align="center">
-		<button type="button" id="btn">입력</button>
+			<button type="button" id="btn">입력</button>
 		</div>
 	</form>
 </div>

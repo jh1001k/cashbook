@@ -3,9 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.CashMapper">
-	<update id="updateCashList" parameterType="com.gdu.cashbook1.vo.Cash">
-		UPDATE cash
+	<update id="updateCash" parameterType="com.gdu.cashbook1.vo.Cash">
+		UPDATE 
+			cash
 		SET 
+			category_name = #{categoryName},
+			cash_kind = #{cashKind},
+			cash_price = #{cashPrice},
+			cash_place = #{cashPlace},
+			cash_memo = #{cashMemo}
+
+		WHERE cash_no = #{cashNo}
 	</update>
 	<select id="selectCashListOne"  parameterType="com.gdu.cashbook1.vo.Cash" resultType="com.gdu.cashbook1.vo.Cash">
 		SELECT 
@@ -54,16 +62,20 @@
 
 	<insert id="insertCashByDate" parameterType="com.gdu.cashbook1.vo.Cash">
 		INSERT INTO cash(
-			category_name,
+			member_id,
 			cash_kind,
+			category_name,
 			cash_price,
 			cash_place,
+			cash_date,
 			cash_memo
 		) VALUES (
-			#{categoryName},
+			#{memberId},
 			#{cashKind},
+			#{categoryName},
 			#{cashPrice},
 			#{cashPlace},
+			#{cashDate},
 			#{cashMemo}
 		)	
 	</insert>

@@ -23,7 +23,7 @@ import com.gdu.cashbook1.vo.LoginMember;
 @Controller
 public class CashController {
 	@Autowired private CashService cashService;
-	// 가계부 일자별 상세 리스트 수정 getMapping
+	// 일자별 가계부 상세 리스트 수정 getMapping
 	@GetMapping("/modifyCashByDate")
 	public String modifyCashByDate(HttpSession session, Model model, @RequestParam("cashNo") int cashNo) {
 		if(session.getAttribute("loginMember") == null) {
@@ -36,13 +36,16 @@ public class CashController {
 		System.out.println(list+"<--list");
 		return "modifyCashByDate";
 	}
-	// 가계부 일자별 상세 리스트 수정 postMapping
+	// 일자별 가계부 상세 리스트 수정 postMapping
 	@PostMapping("/modifyCashByDate")
 	public String modifyCashByDate(HttpSession session, Cash cash) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		return null;
+		
+		System.out.println(cash);
+		cashService.updateCash(cash);
+		return "redirect:/getCashListByDate";
 	}
 	
 	@GetMapping("/removeCashByDate") // 게시판 상세 리스트 삭제
@@ -100,21 +103,32 @@ public class CashController {
 		return "getCashListByMonth";
 	}
 	
+	// 가계부 추가
 	@GetMapping("/addCashByDate")
-	public String addCashByDate(HttpSession session) {	
+	public String addCashByDate(HttpSession session, Model model, @RequestParam(value = "day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {	
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		// category_name list
+		List<String> list = cashService.selectCategoryAll();
+		
+		model.addAttribute("categoryList", list);
+		model.addAttribute("day", day);
+		
+		
 		return "addCash";
 	}
 	
 	@PostMapping("/addCashByDate")
-	public String addCashByDate(HttpSession session, Cash cash) {
+	public String addCashByDate(HttpSession session, Cash cash, @RequestParam(value = "day", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate day) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		String memberId = ((LoginMember) (session.getAttribute("loginMember"))).getMemberId();
+		cash.setMemberId(memberId);
+		cash.setCashDate(day);
 		cashService.addCashByDate(cash);
-		return "getCashListByDate";
+		return "redirect:/getCashListByDate";
 	}
 	
 	@GetMapping("/getCashListByDate") // 로그인 사용자의 오늘날짜 cash 목록
@@ -122,7 +136,7 @@ public class CashController {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		
+	
 		if(day == null) {
 			day = LocalDate.now();
 		}
