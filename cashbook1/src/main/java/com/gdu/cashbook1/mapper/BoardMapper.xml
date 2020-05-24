@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gdu.cashbook1.mapper.BoardMapper">
+	<select id="selectBoardListOne" parameterType="int" resultType="com.gdu.cashbook1.vo.Board">
+		SELECT
+			board_title boardTitle,
+			member_id memberId,
+			board_date boardDate,
+			board_contents boardContents,
+			board_no boardNo
+		FROM 
+			board
+		WHERE
+			board_no = #{boardNo}
+	</select>
+	<!-- 게시글 입력 -->
+	<insert id="insertBoard" parameterType="com.gdu.cashbook1.vo.Board">
+		INSERT INTO board(
+			board_title,
+			member_id,
+			board_contents,
+			board_date
+		) VALUES(
+			#{boardTitle},
+			#{memberId},
+			#{boardContents},
+			NOW()
+		)
+	</insert>
+	<!-- 게시판 리스트 출력 -->
+	<select id="selectBoardListALL" resultType="com.gdu.cashbook1.vo.Board">
+		SELECT
+			board_no boardNo,
+			board_title boardTitle,
+			member_id memberId,
+			board_date boardDate
+		FROM board
+	</select>
+</mapper>

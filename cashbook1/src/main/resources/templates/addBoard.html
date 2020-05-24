@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        position: relative;
+        overflow-y: auto;
+    }
+    
+    #aside {
+    	float: left;
+        width: 200px;
+        height: 100%;
+        position: fixed;
+        background:  #D1B2FF;
+        overflow: auto;
+        
+    }
+    
+    #section {
+        margin-left: 300px;
+        background: white;
+    }
+</style>
+<title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="body">
+<div id="aside" th:include="/include/menu::sidemenu"></div>	
+	
+<div id="section">
+	<h1>게시글 입력</h1>
+	<form method="post" th:action="@{/addBoard}">
+		<div>
+			글 제목
+		</div>
+		<div>
+			<input type="text" name="boardTitle" id="boardTitle" placeholder="제목 입력..">
+		</div>
+		<div>
+			글 내용
+		</div>
+		<div>
+			<input type="text" style="width:1000px; height:500px;" name="boardContents" id="boardContents" placeholder="내용 입력..."> 
+		</div>
+		<div>
+			<button type="submit">입력</button>
+		</div>
+	</form>
+</div>
+</div>
+</body>
+</html>
