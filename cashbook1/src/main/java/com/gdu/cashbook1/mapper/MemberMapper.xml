@@ -20,9 +20,9 @@
 		SET	
 			member_pw = PASSWORD(#{memberPw})
 		WHERE 
-			member_id = #{memberId} 
+			member_id = #{memberId}
 		AND
-			member_email = #{memberEmail} 
+			member_email = #{memberEmail}
 	</update>
 
 	<select id="selectMemberIdByMember" parameterType="com.gdu.cashbook1.vo.Member" resultType="String">

@@ -14,6 +14,16 @@ import com.gdu.cashbook1.vo.Board;
 public class BoardService {
 	@Autowired private BoardMapper boardMapper;
 	
+	// 게시글 수정
+	public int modifyBoard(Board board) {
+		return boardMapper.updateBoard(board);
+	}
+	
+	// 게시글 삭제
+	public int removeBoard(int boardNo) {
+		return boardMapper.deleteBoard(boardNo);
+	}
+	
 	// 게시판 상세 내용
 	public Board selectBoardListOne(int boardNo) {
 		Board board = boardMapper.selectBoardListOne(boardNo);

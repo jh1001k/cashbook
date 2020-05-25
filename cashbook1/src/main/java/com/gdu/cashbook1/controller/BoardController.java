@@ -12,13 +12,47 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gdu.cashbook1.service.BoardService;
+import com.gdu.cashbook1.service.CommentService;
 import com.gdu.cashbook1.vo.Board;
+import com.gdu.cashbook1.vo.Comment;
 import com.gdu.cashbook1.vo.LoginMember;
 
 
 @Controller
 public class BoardController {
 	@Autowired private BoardService boardService;
+	@Autowired private CommentService commentService;
+	// 게시글 수정
+	@GetMapping("/modifyBoard")
+	public String modifyBoard(HttpSession session, Model model, @RequestParam("boardNo") int boardNo) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		System.out.println(boardNo+"<-- modifyBoard.boardNo");
+		Board board = boardService.selectBoardListOne(boardNo);
+		model.addAttribute("board", board);
+		return "modifyBoard";
+	}
+	@PostMapping("/modifyBoard")
+	public String modifyBoard(HttpSession session, Board board, @RequestParam("boardNo") int boardNo) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		board.setBoardNo(boardNo);
+		boardService.modifyBoard(board);
+		System.out.println(board +"<--modifyBoard.board");
+		return "redirect:/boardDetail?boardNo="+boardNo;
+	}
+	
+	// 게시글 삭제
+	@GetMapping("/removeBoard")
+	public String removeBoard(HttpSession session, @RequestParam("boardNo") int boardNo) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		boardService.removeBoard(boardNo);
+		return "redirect:/boardList";
+	}
 	
 	// 게시판 리스트
 	@GetMapping("/boardList")
@@ -58,8 +92,9 @@ public class BoardController {
 		}
 		System.out.println(boardNo+"<-- boardDetail boardNo");
 		Board board = boardService.selectBoardListOne(boardNo);
-		
+		List<Comment> list = commentService.selectCommentList(boardNo);
 		model.addAttribute("board", board);
+		model.addAttribute("list", list);
 		return "boardDetail";
 	}
 }

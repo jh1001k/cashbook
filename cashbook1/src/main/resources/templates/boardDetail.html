@@ -19,10 +19,7 @@
 <div class="container">
 <div align="center">
 	<h1>게시판 상세보기</h1>
-	<div>
-		<a th:href="@{/boardDetail(boardNo=${board.boardNo}-1)}">이전</a> <!-- 첫번째에서 이전누르면 에러뜨는거 수정해야함 -->
-		<a th:href="@{/boardDetail(boardNo=${board.boardNo}+1)}">다음</a> <!-- 마지막에서 다음 누르면 에러뜨는거 수정해야됨 -->
-	</div> 
+	
 	<table class="table">
 		<tr>
 			<td>제목</td>
@@ -44,6 +41,28 @@
 	<div align="left">
 		<a th:href="@{/boardList}">목록</a>
 	</div>
+	<div align="right">
+		<a th:href="@{/modifyBoard(boardNo=${board.boardNo})}">수정</a>
+		<a th:href="@{/removeBoard(boardNo=${board.boardNo})}">삭제</a>
+	</div>
+	<br><br>
+	<!-- 댓글 입력 -->
+	<form method="post" th:action="@{/addComment(boardNo=${board.boardNo})}">
+		<div>
+			<input type="text" style="width:800px;" name="commentContents" placeholder="댓글 입력"/>
+			<button type="submit">댓글 입력</button>
+		</div>
+	</form>
+	<!-- 댓글 리스트 -->
+	<table class="table">
+		<tr th:each="list : ${list}">
+			<td th:text="${list.memberId}"></td>
+			<td th:text="${list.commentContents}"></td>
+			<td th:text="${list.commentDate}"></td>
+			<td><a id="mCommentHelper" th:href="@{/modifyComment(commentNo=${list.commentNo},boardNo=${list.boardNo})}">수정</a></td>
+			<td><a id="mCommentHelper" th:href="@{/removeComment(commentNo=${list.commentNo},boardNo=${list.boardNo})}">삭제</a></td>
+		</tr>
+	</table>
 </div>
 </div>
 </body>

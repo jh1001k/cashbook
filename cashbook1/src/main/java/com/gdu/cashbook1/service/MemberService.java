@@ -24,7 +24,7 @@ public class MemberService {
 	private MemberMapper memberMapper;
 	@Autowired
 	private JavaMailSender javaMailSender;
-	@Value("D:/김종훈/git-cashbook/cashbook1/src/main/resources/static/upload/")
+	@Value("C:\\Users\\GDJ26\\git\\cashbook\\cashbook1\\src\\main\\resources\\static\\upload\\")
 	private String path;
 
 	public int getMemberPw(Member member) {
@@ -58,10 +58,14 @@ public class MemberService {
 	}
 
 	// 회원정보 수정
-	public int modifyMember(MemberForm memberForm) {
+	public int modifyMember(MemberForm memberForm, LoginMember loginMember) {
+		String originMemberPic = memberMapper.selectMemberPic(memberForm.getMemberId()); // id에저장된 사진이름
+		System.out.println(originMemberPic+"<--modifyMember.Pic");
 		MultipartFile mf = memberForm.getMemberPic();
-		String originName = mf.getOriginalFilename();
+		System.out.println(mf+"<--???");
+		String originName = mf.getOriginalFilename(); // 바꿀 사진 원래 이름
 		System.out.println(originName + "<--origib");
+		String memberPic = null;
 		// 1. db저장
 		Member member = new Member();
 		member.setMemberAddr(memberForm.getMemberAddr());
@@ -73,12 +77,27 @@ public class MemberService {
 		member.setMemberPw(memberForm.getMemberPw());
 		// 픽쳐 파일이름은 그대로 db저장
 		// 파일 저장 삭제
-		// File file = new File(path+memberPic);
-		if (originName.length() == 0) { // defult 값이면 그대로??? 아니면 수정 저장?
-
+		 
+		if (originName.length() == 0 && !originMemberPic.equals("default.jpg")) { // 바뀔 사진 이름이 0이면 
+			memberPic = originMemberPic; // 저장되어 있는 사진이름으로 저장
 		} else {
-			// member.setMemberPic(memberPic);
+			File file = new File(path+originMemberPic);
+			if(file.exists()) {
+				file.delete();
+			}
+			int lastDot = originName.lastIndexOf(".");
+			String extension = originName.substring(lastDot);
+			memberPic = memberForm.getMemberId() + extension;
 		}
+		member.setMemberPic(memberPic);
+		
+		File file = new File(path+memberPic);
+        try {
+           mf.transferTo(file);
+        } catch (Exception e) {
+              e.printStackTrace();
+              throw new RuntimeException();
+        }     
 		return memberMapper.modifyMember(member);
 	}
 

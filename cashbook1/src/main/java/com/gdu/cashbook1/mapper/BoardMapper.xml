@@ -3,6 +3,22 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.BoardMapper">
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="com.gdu.cashbook1.vo.Board">
+		UPDATE
+			board
+		SET
+			board_title = #{boardTitle},
+			board_contents = #{boardContents}
+		WHERE board_no = #{boardNo}
+	</update>
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM 
+				board
+		WHERE board_no = #{boardNo}
+	</delete>
+	<!-- 게시글 상세페이지 -->
 	<select id="selectBoardListOne" parameterType="int" resultType="com.gdu.cashbook1.vo.Board">
 		SELECT
 			board_title boardTitle,
@@ -37,5 +53,6 @@
 			member_id memberId,
 			board_date boardDate
 		FROM board
+		ORDER BY board_no DESC
 	</select>
 </mapper>

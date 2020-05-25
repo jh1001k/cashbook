@@ -62,8 +62,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="list : ${list}">
-				<td th:text="${list.boardNo}"></td>
+			<tr th:each="list, index : ${list}">
+				<td th:text="${index.index}+1"></td> <!-- 내림차순으로 인덱스 정렬해야됨 -->
 				<td>
 					<a th:href="@{/boardDetail(boardNo=${list.boardNo})}" th:text="${list.boardTitle}"></a>
 				</td>
@@ -73,6 +73,12 @@
 		</tbody>
 	</table>
 	<a th:href="@{/addBoard}">입력</a> 
+	<div>
+		<form method="post" action="">
+			<input type="text" />
+			<button type="submit">검색</button>
+		</form>
+	</div>
 </div>
 </div>
 </body>
