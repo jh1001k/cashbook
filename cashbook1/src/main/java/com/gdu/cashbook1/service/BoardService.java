@@ -1,6 +1,8 @@
 package com.gdu.cashbook1.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,12 @@ import com.gdu.cashbook1.vo.Board;
 @Transactional
 public class BoardService {
 	@Autowired private BoardMapper boardMapper;
+	
+	// 게시글 검색
+	public List<Board> selectSearchBoard(String searchBoard) {
+		List<Board> list = boardMapper.selectSearchBoard(searchBoard);
+		return list;
+	}
 	
 	// 게시글 수정
 	public int modifyBoard(Board board) {
@@ -30,9 +38,21 @@ public class BoardService {
 		return board;
 	}
 	// 게시판 리스트 출력
-	public List<Board> selectBoardListALL() {
-		List<Board> list = boardMapper.selectBoardListALL();
-		return list;
+	public Map<String, Object> selectBoardListALL(int currentPage) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 페이징
+		int rowPerPage = 10;
+		int beginRow = (currentPage - 1)*rowPerPage;
+		int count = boardMapper.boardListCount();
+		System.out.println(count+"<-- boardService.count");
+		int lastPage = count / rowPerPage;
+		if(count % rowPerPage != 0) {
+			lastPage += 1;
+		}
+		map.put("lastPage", lastPage);
+		List<Board> list = boardMapper.selectBoardListALL(beginRow, rowPerPage);
+		map.put("list", list);
+		return map;
 	}
 	// 게시글 입력
 	public int addBoard(Board board) {

@@ -1,6 +1,7 @@
 package com.gdu.cashbook1.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +23,7 @@ import com.gdu.cashbook1.vo.LoginMember;
 public class BoardController {
 	@Autowired private BoardService boardService;
 	@Autowired private CommentService commentService;
+	
 	// 게시글 수정
 	@GetMapping("/modifyBoard")
 	public String modifyBoard(HttpSession session, Model model, @RequestParam("boardNo") int boardNo) {
@@ -56,12 +58,21 @@ public class BoardController {
 	
 	// 게시판 리스트
 	@GetMapping("/boardList")
-	public String selectBoardListALL(HttpSession session, Model model) {
+	public String selectBoardListALL(HttpSession session, Model model, String searchBoard, @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		List<Board> list = boardService.selectBoardListALL();
-		model.addAttribute("list", list);
+		System.out.println(searchBoard + "<--boardList.searchBoard");
+		// 검색기능 추가
+		if(searchBoard == null || searchBoard == "") {
+			Map<String, Object> map = boardService.selectBoardListALL(currentPage);
+			model.addAttribute("list", map.get("list"));
+			model.addAttribute("lastPage", map.get("lastPage"));
+			model.addAttribute("currentPage", currentPage);
+		} else {
+			List<Board> list = boardService.selectSearchBoard(searchBoard);
+			model.addAttribute("list", list);
+		}
 		
 		return "boardList";
 	}

@@ -62,8 +62,10 @@
 	<div class="gd-left gd-title">토</div>
 	<div th:each="i, index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}"
 		 th:class="${index.index%7} == 0 ? 'gd-clear gd-left': 'gd-left'">
-		  <!-- 날짜 -->
-		 <div th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''"></div>
+		  <!-- 날짜 수정중-->
+		 <div>
+		 	<a th:href="@{/getCashListByDate(day=${year+'-05'+'-'+i})}" th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''"></a>
+		 </div>
 		 <!-- 수입지출합 -->
 		 <div th:each="dp : ${dayAndPriceList}">
 		 	<span th:if="${i-(firstDayOfWeek-1)}==${dp.day}">

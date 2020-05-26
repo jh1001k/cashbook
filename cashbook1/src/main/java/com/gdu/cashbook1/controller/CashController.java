@@ -66,6 +66,7 @@ public class CashController {
 		}
 		
 		Calendar cDay = Calendar.getInstance(); // 오늘
+		
 		if(day == null) {	
 			day = LocalDate.now();
 			
@@ -90,6 +91,8 @@ public class CashController {
 			System.out.println(dp);
 		}
 		
+		// model.addAttribute("month", );
+		model.addAttribute("year", day.getYear());
 		model.addAttribute("day", day);
 		//	model.addAttribute("month", cDay.get(Calendar.MONTH)+1); // 월
 		model.addAttribute("lastDay", cDay.getActualMaximum(Calendar.DATE)); // 마지막 일
