@@ -13,6 +13,10 @@ import com.gdu.cashbook1.vo.Comment;
 @Transactional
 public class CommentService {
 	@Autowired private CommentMapper commentMapper;
+	// 회원 탈퇴시 댓글 삭제
+	public int removeCommentByMember(String memberId) {
+		return commentMapper.deleteCommentByMember(memberId);
+	}
 	// 댓글 삭제
 	public int removeComment(Comment comment) {
 		return commentMapper.deleteComment(comment);

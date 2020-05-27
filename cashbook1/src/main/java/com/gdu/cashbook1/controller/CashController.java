@@ -90,8 +90,9 @@ public class CashController {
 		for(DayAndPrice dp : dayAndPriceList) {
 			System.out.println(dp);
 		}
-		
-		// model.addAttribute("month", );
+		// int dayMonth = day.getMonthValue()+1;
+		// System.out.println(dayMonth+"<--먼쓰");
+		model.addAttribute("month", day.getMonthValue());
 		model.addAttribute("year", day.getYear());
 		model.addAttribute("day", day);
 		//	model.addAttribute("month", cDay.get(Calendar.MONTH)+1); // 월

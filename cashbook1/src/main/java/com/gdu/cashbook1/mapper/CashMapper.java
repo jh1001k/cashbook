@@ -11,6 +11,7 @@ import com.gdu.cashbook1.vo.DayAndPrice;
 @Mapper
 public interface CashMapper {
 	
+	public int deleteCashByMember(String memberId); // 회원탈퇴시 캐시삭제
 	public int updateCash(Cash cash); // 가계부 일자별 상세보기 수정
 	public List<DayAndPrice> selectDayAndPriceList(Map<String, Object> map);
 	public List<Cash> selectCashListOne(int cashNo);

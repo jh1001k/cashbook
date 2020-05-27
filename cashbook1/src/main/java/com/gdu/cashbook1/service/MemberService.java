@@ -111,10 +111,19 @@ public class MemberService {
 		 * mf.getContentType().equals("image/jpg")) { // 업로드 } else { // 업로드 실패 }
 		 */
 		System.out.println(originName + "<--originName");
-		int lastDot = originName.lastIndexOf("."); // 좌석표.png
-		String extension = originName.substring(lastDot);
+		
+		
+		String memberPic = null;
+		System.out.println(memberForm.getMemberPic()+"<--getMemberPic");
+		if(!originName.equals("")) {
 		// 새로운 이름을 생성 : UUID
-		String memberPic = memberForm.getMemberId() + extension;
+			int lastDot = originName.lastIndexOf("."); // 좌석표.png
+			String extension = originName.substring(lastDot);
+			memberPic = memberForm.getMemberId() + extension;
+		} else {
+			memberPic = "default.jpg";
+		}
+		System.out.println(memberPic+"<--mememem");
 		// 1. db저장
 		Member member = new Member();
 		member.setMemberAddr(memberForm.getMemberAddr());
@@ -129,7 +138,7 @@ public class MemberService {
 		int row = memberMapper.addMember(member);
 		// 2. 파일 저장
 		File file = new File(path + memberPic);
-		System.out.println(memberPic);
+		System.out.println(memberPic+"<-- memberPic");
 
 		try {
 			mf.transferTo(file);
@@ -140,7 +149,6 @@ public class MemberService {
 			// 1. 예외처리를 해야만 문법적으로 이상이 없는 예외
 			// 2. 예외처리를 코드에서 구현하지 않아도 아무 문제 없는 예외 RuntimeException()
 		}
-
 		return row;
 	}
 

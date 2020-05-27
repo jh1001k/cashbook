@@ -40,6 +40,7 @@
 			member_addr = #{memberAddr},
 			member_phone = #{memberPhone},
 			member_email = #{memberEmail},	
+			member_pic = #{memberPic},
 			member_pw = PASSWORD(#{memberPw})
 		WHERE member_id = #{memberId}
 	</update>

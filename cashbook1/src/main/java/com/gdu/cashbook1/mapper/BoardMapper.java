@@ -10,6 +10,7 @@ import com.gdu.cashbook1.vo.Board;
 @Mapper
 public interface BoardMapper {
 	
+	public int deleteBoardByMember(String memberId); // 회원탈퇴시 게시글 삭제
 	public int boardListCount(); // 게시글 개수
 	public List<Board> selectSearchBoard(String searchBoard); // 게시글 검색
 	public int updateBoard(Board board); // 게시글 수정

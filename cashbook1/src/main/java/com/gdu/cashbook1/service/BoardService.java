@@ -15,6 +15,10 @@ import com.gdu.cashbook1.vo.Board;
 @Transactional
 public class BoardService {
 	@Autowired private BoardMapper boardMapper;
+	// 회원탈퇴시 게시글 삭제
+	public int removeBoardByMember(String memberId) {
+		return boardMapper.deleteBoardByMember(memberId);
+	}
 	
 	// 게시글 검색
 	public List<Board> selectSearchBoard(String searchBoard) {

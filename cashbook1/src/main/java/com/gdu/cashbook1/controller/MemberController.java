@@ -9,7 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.gdu.cashbook1.service.BoardService;
+import com.gdu.cashbook1.service.CashService;
+import com.gdu.cashbook1.service.CommentService;
 import com.gdu.cashbook1.service.MemberService;
 import com.gdu.cashbook1.vo.LoginMember;
 import com.gdu.cashbook1.vo.Member;
@@ -17,8 +21,10 @@ import com.gdu.cashbook1.vo.MemberForm;
 
 @Controller
 public class MemberController {
-	@Autowired
-	private MemberService memberService;
+	@Autowired private MemberService memberService;
+	@Autowired private CashService cashService;
+	@Autowired private BoardService boardService;
+	@Autowired private CommentService commentService;
 	
 	@GetMapping("/findMemberPw")
 	public String findMemberPw(HttpSession session) {
@@ -56,7 +62,7 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		return "findMemberId";
 	}
-	
+	// 회원정보 수정
 	@GetMapping("/modifyMember")
 	public String modifyMember(HttpSession session, Model model) {
 		if(session.getAttribute("loginMember") == null) {
@@ -73,12 +79,11 @@ public class MemberController {
 			return "redirect:/";
 		}
 		LoginMember loginMember = (LoginMember) session.getAttribute("loginMember");
-		
+		System.out.println(memberForm.getMemberPic().getContentType()+"<--타입");
 		if (memberForm.getMemberPic().getContentType().equals("image/png")
 	            || memberForm.getMemberPic().getContentType().equals("image/jpeg")
-	            || memberForm.getMemberPic().getContentType().equals("image/gif")) { //
-	         int result = memberService.modifyMember(memberForm, loginMember);
-	         System.out.println(result + "<-- result");
+	            || memberForm.getMemberPic().getContentType().equals("image/gif")) { 
+	         memberService.modifyMember(memberForm, loginMember);
 	         model.addAttribute("loginMember", loginMember);
 	         return "redirect:/memberInfo";
 		}
@@ -86,19 +91,22 @@ public class MemberController {
 	     model.addAttribute("loginMember", loginMember);
 	     return "redirect:/memberInfo";
 	}
-
-	@GetMapping("/removeMember") // 회원탈퇴
+	// 회원탈퇴
+	@GetMapping("/removeMember") 
 	public String removeMember(HttpSession session, LoginMember loginMember, String memberId) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		cashService.removeCashByMember(memberId);
+		commentService.removeCommentByMember(memberId);
+		boardService.removeBoardByMember(memberId);
 		memberService.removeMember(loginMember, memberId);
 		
 		session.invalidate(); // 세션 초기화
 		return "redirect:/";
 	}
-	
-	@GetMapping("/memberInfo") //회원정보
+	//회원정보
+	@GetMapping("/memberInfo") 
 	public String memberInfo(HttpSession session, Model model) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
@@ -180,15 +188,15 @@ public class MemberController {
 		if(session.getAttribute("loginMember") != null) {
 			return "redirect:/";
 		}
+		MultipartFile mf = memberForm.getMemberPic();
 		System.out.println(memberForm+"<--memberForm");
 		//System.out.println(member.toString());
-		
-		if(memberForm.getMemberPic() != null) {
+		System.out.println(memberForm.getMemberPic()+"<--getMemberPic");
+		if(memberForm.getMemberPic() != null && !mf.getOriginalFilename().equals("")) {
 			if(!memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/gif")) {
 				return "redirect:/addMember";
-			}
+			} 
 		}
-		
 		memberService.addMember(memberForm);
 		return "redirect:/index";
 	}

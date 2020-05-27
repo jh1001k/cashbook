@@ -18,6 +18,11 @@ import com.gdu.cashbook1.vo.DayAndPrice;
 public class CashService {
 	@Autowired private CashMapper cashMapper;
 	@Autowired private CategoryMapper categoryMapper;
+	//  회원탈퇴시 캐시삭제
+	public int removeCashByMember(String memberId) {
+		return cashMapper.deleteCashByMember(memberId);
+	}
+	
 	// 가계부 상세 페이지 수정
 	public int updateCash(Cash cash) {
 		return cashMapper.updateCash(cash);

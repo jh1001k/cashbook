@@ -4,6 +4,57 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	.btn-primary {
+    background-color: #7bc143;
+    border-color: #7bc143;
+    color: #FFF; }
+	.btn-primary:hover,
+	.btn-primary:focus {
+	    border-color: #6fb03a;
+	    background-color: #FF007F;
+	    color: #FFF; }
+	.btn-primary:active,
+	.btn-primary:visited,
+	.btn-primary:active:focus,
+	.btn-primary:active:hover {
+    border-color: #639d34;
+    background-color: #FF007F;
+    color: #FFF; }
+    #body {
+    	
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        position: relative;
+        overflow-y: auto;
+    }
+    
+    table {
+    	margin-top: 200px;
+    }
+    
+    #aside {
+    	position: fixed;
+    	float: left;
+        width: 200px;
+        height: 100%;
+        position: fixed;
+        background:  #D1B2FF;
+        overflow: auto;
+        
+    }
+    
+    #section {
+        margin-left: 300px;
+        background: white;
+        margin-right: 100px;
+        }
 	div.gd-left {
 		float: left;
 		width: 100px; 
@@ -43,10 +94,10 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div id="body">
+<div id="aside" th:include="/include/menu::sidemenu"></div>
+<div id="section">
 	<h1>월별 가계부 관리</h1>
-	<!-- <div th:include="/include/menu::sidemenu"></div> --> 
-	<div th:include="/include/menu::sidemenu"></div>
 	<h3 th:text="${#temporals.format(day, 'yyyy-MM')}"></h3>
 	<div>
 			<a th:href="@{/getCashListByMonth(day=${day.minusMonths(1)})}">이전</a>
@@ -63,9 +114,10 @@
 	<div th:each="i, index : ${#numbers.sequence(1, lastDay+(firstDayOfWeek-1))}"
 		 th:class="${index.index%7} == 0 ? 'gd-clear gd-left': 'gd-left'">
 		  <!-- 날짜 수정중-->
-		 <div>
-		 	<a th:href="@{/getCashListByDate(day=${year+'-05'+'-'+i})}" th:text="${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''"></a>
+		 <div th:with="value1=${i-(firstDayOfWeek-1)}>0 ? ${i-(firstDayOfWeek-1)} : ''">
+		 	<a  th:href="@{/getCashListByDate(day=${year+'-'+#numbers.formatInteger(month,2)+'-'+#numbers.formatInteger(value1,2)})}" th:text="${value1}"></a>
 		 </div>
+		 
 		 <!-- 수입지출합 -->
 		 <div th:each="dp : ${dayAndPriceList}">
 		 	<span th:if="${i-(firstDayOfWeek-1)}==${dp.day}">
@@ -73,6 +125,7 @@
 		 	</span>
 		 </div>
 	</div>
+</div>
 </div>
 </body>
 </html>

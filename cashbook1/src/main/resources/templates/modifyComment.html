@@ -37,7 +37,7 @@
     table {
     	margin-top: 200px;
     }
-    
+ 
     #aside {
     	position: fixed;
     	float: left;
@@ -55,7 +55,7 @@
         margin-right: 100px;
     }
 </style>
-<title>Insert title here</title>
+<title>addMember</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -67,65 +67,65 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-	$('#btn').click(function() {
-		$('#myform').submit();
-	});
-});
-</script>
+
 </head>
 <body>
 <div id="body">
 <div id="aside" th:include="/include/menu::sidemenu"></div>
 <div id="section">
-	<div align="center">
-		<h3>수입/지출 수정 </h3>
+<div align="center">
+	<h1>게시판 상세보기</h1>
+	
+	<table class="table">
+		<tr>
+			<td>제목</td>
+			<td th:text="${board.boardTitle}"></td>
+		</tr>
+		<tr>	
+			<td>작성자</td>
+			<td th:text="${board.memberId}"></td>
+		</tr>
+		<tr>
+			<td>작성일시</td>
+			<td th:text="${board.boardDate}"></td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td th:text="${board.boardContents}"></td>
+		</tr>
+	</table>
+	<div align="left">
+		<a th:href="@{/boardList}">목록</a>
 	</div>
-	<form method="post" action="/modifyCashByDate" id="myform">
-		<table class="table" th:each="cashNoList : ${cashNoList}">
-			<tr>
-				<td>카테고리</td>
-				<td>
-					<input type="hidden" name="cashNo" th:value="${cashNoList.cashNo}"/>
-					<select name="categoryName">
-							<option value="">선택</option>
-							<option th:each="list : ${list}" th:value="${list.categoryName}" th:text="${list.categoryName}"></option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>수입/지출</td>
-				<td>
-					<select name="cashKind" th:value="${cashNoList.cashKind}">
-						<option value="수입">수입</option>
-						<option value="지출">지출</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>금액</td>
-				<td>
-					<input type="text" th:value="${cashNoList.cashPrice}" name="cashPrice" id="cashPrice" placeholder="금액 입력">
-				</td>
-			</tr>
-			<tr>
-				<td>장소</td>
-				<td>
-					<input type="text" th:value="${cashNoList.cashPlace}" name="cashPlace" id="cashPlace" placeholder="장소 입력">
-				</td>
-			</tr>
-			<tr>
-				<td>메모</td>
-				<td>
-					<input type="text" th:value="${cashNoList.cashMemo}" name="cashMemo" id="cashMemo" placeholder="메모 입력">
-				</td>
-			</tr>
-		</table>
-		<div align="center">
-		<button type="button" id="btn">입력</button>
+	<div align="right">
+		<a th:href="@{/modifyBoard(boardNo=${board.boardNo})}">수정</a>
+		<a th:href="@{/removeBoard(boardNo=${board.boardNo})}">삭제</a>
+	</div>
+	<br><br>
+	<!-- 댓글 입력 -->
+	<form method="post" th:action="@{/addComment(boardNo=${board.boardNo})}">
+		<div>
+			<input type="text" style="width:800px;" name="commentContents" placeholder="댓글 입력"/>
+			<button type="submit">댓글 입력</button>
 		</div>
 	</form>
+	<!-- 댓글 리스트 -->
+	<div th:each="list : ${list}">
+		<form method="post" th:action="@{/modifyComment(commentContents=${list.commentContents},boardNo=${list.boardNo})}">
+			<table class="table" style="margin-top: 30px;">
+				<tr>
+					<td th:text="${list.memberId}"></td>
+					<td>
+						<input type="text" name="commentContents" th:value="${list.commentContents}" />
+						<button type="submit">입력</button>
+					</td>
+					<td th:text="${list.commentDate}"></td>
+					<td><a th:href="@{/removeComment(commentNo=${list.commentNo},boardNo=${list.boardNo})}">삭제</a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
 </div>
 </div>
 </body>

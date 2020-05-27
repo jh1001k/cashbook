@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.BoardMapper">
+	<!-- 회원 탈퇴시 게시글 삭제 -->
+	<delete id="deleteBoardByMember" parameterType="String">
+		DELETE FROM 
+				board
+		WHERE member_id = #{memberId}
+	</delete>
 	<!-- 페이징 카운트 -->
 	<select id="boardListCount" resultType="int">
 		SELECT
