@@ -52,6 +52,7 @@ public class BoardController {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		commentService.removeCommentByBoard(boardNo);
 		boardService.removeBoard(boardNo);
 		return "redirect:/boardList";
 	}

@@ -67,13 +67,20 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+</script>
 </head>
 <body>
 <div id="body">
 <div id="aside" th:include="/include/menu::sidemenu"></div>
 <div id="section">
 	<h1>회원정보 수정</h1>
-	<form method="post" action="/modifyMember" enctype="multipart/form-data">
+	<form id="myform" method="post" action="/modifyMember" enctype="multipart/form-data">
 	<table class="table">
 		<tr>
 			<td bgcolor="hotpink">사진</td>
@@ -82,7 +89,7 @@
 					<img th:src="@{${'/upload/'+ member.memberPic}}">
 				</div>
 				<div>
-					<input type="file" name="memberPic" th:value="${member.memberPic}" id="" />
+					<input type="file" name="memberPic" th:value="${member.memberPic}" />
 				</div>
 			</td>
 		</tr>
@@ -126,7 +133,7 @@
 		</tr>
 	</table>
 	<div>
-	<button class="btn btn-primary" type="submit">정보수정</button>
+	<button id="btn" class="btn btn-primary" type="button">정보수정</button>
 	</div>
 	</form>
 </div>

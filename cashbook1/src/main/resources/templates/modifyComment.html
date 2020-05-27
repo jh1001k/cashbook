@@ -67,7 +67,16 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
+<script>
+$(document).ready(function() {
+	$('#btn1').click(function() {
+		$('#insertform').submit();
+	});
+	$('#btn2').click(function() {
+		$('#listform').submit();
+	});
+});
+</script>
 </head>
 <body>
 <div id="body">
@@ -103,21 +112,21 @@
 	</div>
 	<br><br>
 	<!-- 댓글 입력 -->
-	<form method="post" th:action="@{/addComment(boardNo=${board.boardNo})}">
+	<form id="insertform" method="post" th:action="@{/addComment(boardNo=${board.boardNo})}">
 		<div>
 			<input type="text" style="width:800px;" name="commentContents" placeholder="댓글 입력"/>
-			<button type="submit">댓글 입력</button>
+			<button id="btn1" type="button">댓글 입력</button>
 		</div>
 	</form>
 	<!-- 댓글 리스트 -->
 	<div th:each="list : ${list}">
-		<form method="post" th:action="@{/modifyComment(commentContents=${list.commentContents},boardNo=${list.boardNo})}">
+		<form id="listform" method="post" th:action="@{/modifyComment(commentNo=${list.commentNo},boardNo=${list.boardNo})}">
 			<table class="table" style="margin-top: 30px;">
 				<tr>
 					<td th:text="${list.memberId}"></td>
 					<td>
 						<input type="text" name="commentContents" th:value="${list.commentContents}" />
-						<button type="submit">입력</button>
+						<button id="btn2" type="button">입력</button>
 					</td>
 					<td th:text="${list.commentDate}"></td>
 					<td><a th:href="@{/removeComment(commentNo=${list.commentNo},boardNo=${list.boardNo})}">삭제</a></td>

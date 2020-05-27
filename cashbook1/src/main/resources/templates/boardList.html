@@ -44,6 +44,13 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+</script>
 </head>
 <body>
 <div id="body">
@@ -71,10 +78,10 @@
 		</tbody>
 	</table>
 	<a th:href="@{/addBoard}">입력</a> 
-	<form method="get" th:action="@{/boardList}">
+	<form id="myform" method="get" th:action="@{/boardList}">
 		<div>
 			<input type="text" name="searchBoard" />
-			<button type="submit">검색</button>
+			<button id="btn" type="button">검색</button>
 		</div>
 	</form>
 	<div>

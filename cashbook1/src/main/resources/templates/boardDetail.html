@@ -55,7 +55,7 @@
         margin-right: 100px;
     }
 </style>
-<title>addMember</title>
+<title>boardDetail.html</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -67,7 +67,13 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
+<script>
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
+</script>
 </head>
 <body>
 <div id="body">
@@ -103,10 +109,10 @@
 	</div>
 	<br><br>
 	<!-- 댓글 입력 -->
-	<form method="post" th:action="@{/addComment(boardNo=${board.boardNo})}">
+	<form id="myform" method="post" th:action="@{/addComment(boardNo=${board.boardNo})}">
 		<div>
 			<input type="text" style="width:800px;" name="commentContents" placeholder="댓글 입력"/>
-			<button type="submit">댓글 입력</button>
+			<button id="btn" type="button">댓글 입력</button>
 		</div>
 	</form>
 	<!-- 댓글 리스트 -->

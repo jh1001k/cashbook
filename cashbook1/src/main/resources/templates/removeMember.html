@@ -15,11 +15,15 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
-$(document)
+$(document).ready(function() {
+	$('#btn').click(function() {
+		$('#myform').submit();
+	});
+});
 </script>
 </head>
 <body>
-	<form method="post" action="/removeMember">
+	<form id="myform" method="post" action="/removeMember">
 		<div>
 			비밀번호 입력
 		</div>

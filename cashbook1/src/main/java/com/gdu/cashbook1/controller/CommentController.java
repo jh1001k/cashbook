@@ -49,6 +49,7 @@ public class CommentController {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
+		System.out.println(comment.getCommentContents()+"<--modifyComment.commentContents");
 		commentService.modifyComment(comment);
 		return "redirect:/boardDetail?boardNo="+comment.getBoardNo();
 	}

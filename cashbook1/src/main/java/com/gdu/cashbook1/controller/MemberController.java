@@ -80,12 +80,14 @@ public class MemberController {
 		}
 		LoginMember loginMember = (LoginMember) session.getAttribute("loginMember");
 		System.out.println(memberForm.getMemberPic().getContentType()+"<--타입");
-		if (memberForm.getMemberPic().getContentType().equals("image/png")
-	            || memberForm.getMemberPic().getContentType().equals("image/jpeg")
-	            || memberForm.getMemberPic().getContentType().equals("image/gif")) { 
-	         memberService.modifyMember(memberForm, loginMember);
-	         model.addAttribute("loginMember", loginMember);
-	         return "redirect:/memberInfo";
+		MultipartFile mf = memberForm.getMemberPic();
+		System.out.println(memberForm+"<--memberForm");
+		//System.out.println(member.toString());
+		System.out.println(memberForm.getMemberPic()+"<--getMemberPic");
+		if(memberForm.getMemberPic() != null && !mf.getOriginalFilename().equals("")) {
+			if(!memberForm.getMemberPic().getContentType().equals("image/png") && !memberForm.getMemberPic().getContentType().equals("image/jpeg") && !memberForm.getMemberPic().getContentType().equals("image/gif")) {
+				return "redirect:/modifyMember";
+			} 
 		}
 		memberService.modifyMember(memberForm, loginMember);
 	     model.addAttribute("loginMember", loginMember);
