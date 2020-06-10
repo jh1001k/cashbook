@@ -44,50 +44,36 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-	$('#btn').click(function() {
-		$('#myform').submit();
-	});
-});
-</script>
 </head>
 <body>
 <div id="body">
 <div id="aside" th:include="/include/menu::sidemenu"></div>
 <div id="section">
-	<h1>게시판</h1>
+	<h1>회원리스트</h1>
 	<table class="table">
 		<thead>
 			<tr>
-				<th>글번호</th>
-				<th>글제목</th>
-				<th>작성자</th>
-				<th>작성날짜</th>
+				<th>아이디</th>
+				<th>이름</th>
+				<th>연락처</th>
+				<th>이메일</th>
+				<th>주소</th>
+				<th>레벨</th>
+				<th>가입날짜</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="list : ${list}">
-				<td th:text="${list.boardNo}"></td> <!-- 내림차순으로 인덱스 정렬해야됨 -->
-				<td>
-					<a th:href="@{/boardDetail(boardNo=${list.boardNo})}" th:text="${list.boardTitle}"></a>
-				</td>
-				<td th:text="${list.memberId}"></td>
-				<td th:text="${list.boardDate}"></td>
+				<td th:text="${list.memberId}"></td> 
+				<td th:text="${list.memberName}"></td>
+				<td th:text="${list.memberPhone}"></td>
+				<td th:text="${list.memberEmail}"></td>
+				<td th:text="${list.memberAddr}"></td>
+				<td th:text="${list.memberLevel}"></td>
+				<td th:text="${list.memberDate}"></td>
 			</tr>
 		</tbody>
 	</table>
-	<a th:href="@{/addBoard}">입력</a> 
-	<form id="myform" method="get" th:action="@{/boardList}">
-		<div>
-			<input type="text" name="searchBoard" />
-			<button id="btn" type="button">검색</button>
-		</div>
-	</form>
-	<div>
-		<a th:if="${currentPage > 1}" th:href="@{/boardList(currentPage=${currentPage-1})}">이전</a>
-		<a th:if="${currentPage < lastPage}" th:href="@{/boardList(currentPage=${currentPage+1})}">다음</a>
-	</div>
 </div>
 </div>
 </body>

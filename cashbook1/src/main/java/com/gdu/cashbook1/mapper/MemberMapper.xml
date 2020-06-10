@@ -3,6 +3,35 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdu.cashbook1.mapper.MemberMapper">
+	<!--  
+	<select id="selectAdmin" parameterType="String" resultType="String">
+		SELECT 
+			m.member_id
+		FROM 
+			member m
+		INNER JOIN 
+			admin a
+		ON 
+			m.member_id = a.member_id
+		WHERE 
+			EXISTS(SELECT m.member_id FROM member WHERE m.member_id = #{memberId})
+		AND 
+			EXISTS(SELECT a.member_id FROM admin WHERE a.member_id = #{memberId})
+	</select>
+	-->
+	<!-- 회원리스트 -->
+	<select id="selectMemberList" resultType="com.gdu.cashbook1.vo.Member">
+		SELECT 
+			member_id memberId,
+			member_name memberName,
+			member_phone memberPhone,
+			member_email memberEmail,
+			member_addr memberAddr,
+			member_date memberDate,
+			member_level memberLevel
+		FROM
+			member
+	</select>
 	<select id="selectMemberPic" parameterType="String" resultType="String">
 		SELECT member_pic
 		FROM member
@@ -65,7 +94,8 @@
 			member_phone memberPhone,
 			member_email memberEmail,
 			member_date memberDate,
-			member_pic memberPic
+			member_pic memberPic,
+			member_level memberLevel
 		FROM member
 		WHERE member_id = #{memberId}
 	</select>
@@ -83,7 +113,9 @@
 	<select id="selectLoginMember" parameterType="com.gdu.cashbook1.vo.LoginMember" resultType="com.gdu.cashbook1.vo.LoginMember">
 		SELECT
 			member_id memberId,
-			member_pw memberPw
+			member_pw memberPw,
+			member_pic memberPic,
+			member_level memberLevel
 		FROM member
 		WHERE member_id = #{memberId}
 		AND member_pw = PASSWORD(#{memberPw})

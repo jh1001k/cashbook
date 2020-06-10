@@ -20,4 +20,13 @@ public class IndexController {
 		return "home";
 		
 	}
+	
+	@GetMapping("/adminHome")
+	public String adminHome(HttpSession session) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/login";
+		}
+		return "adminHome";
+		
+	}
 }

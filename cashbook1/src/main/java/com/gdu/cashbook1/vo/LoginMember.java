@@ -4,6 +4,14 @@ public class LoginMember {
 	private String memberId;
 	private String memberPw;
 	private String memberPic;
+	private int memberLevel;
+	
+	public int getMemberLevel() {
+		return memberLevel;
+	}
+	public void setMemberLevel(int memberLevel) {
+		this.memberLevel = memberLevel;
+	}
 	public String getMemberPic() {
 		return memberPic;
 	}
@@ -24,7 +32,8 @@ public class LoginMember {
 	}
 	@Override
 	public String toString() {
-		return "LoginMember [memberId=" + memberId + ", memberPw=" + memberPw + ", memberPic=" + memberPic + "]";
+		return "LoginMember [memberId=" + memberId + ", memberPw=" + memberPw + ", memberPic=" + memberPic
+				+ ", memberLevel=" + memberLevel + "]";
 	}
 	
 }

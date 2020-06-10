@@ -107,6 +107,10 @@
 			<td bgcolor="hotpink">가입날짜</td>
 			<td th:text="${member.memberDate}"></td>
 		</tr>
+		<tr>
+			<td bgcolor="hotpink">회원레벨</td>
+			<td th:text="${member.memberLevel}"></td>
+		</tr>
 	</table>
 	<div style="float: right;">
 		<a class="btn btn-primary" th:href="@{/modifyMember(memberId=${member.memberId})}">정보수정</a>

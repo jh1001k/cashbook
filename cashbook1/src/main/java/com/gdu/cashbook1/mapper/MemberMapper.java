@@ -1,5 +1,7 @@
 package com.gdu.cashbook1.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import com.gdu.cashbook1.vo.LoginMember;
 import com.gdu.cashbook1.vo.Member;
@@ -7,7 +9,7 @@ import com.gdu.cashbook1.vo.Member;
 @Mapper
 public interface MemberMapper {
 	
-	
+	public List<Member> selectMemberList(); // 회원 리스트
 	public String selectMemberPic(String memberId);
 	public int updateMemberPw(Member member);
 	public String selectMemberIdByMember(Member member); // 아이디 찾기 

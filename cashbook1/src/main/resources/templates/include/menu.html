@@ -12,7 +12,21 @@
 		<div>
 			<span th:text="${session.loginMember.memberId}"></span>님
 		</div>
-		<ul class="navbar-nav">
+		<ul class="navbar-nav" th:if="${session.loginMember.memberLevel} == 1">
+			<li class="nav-item"><a class="nav-link" th:href="@{/home}" style="padding-left: 5px">홈</a></li>
+			<br>
+			<li class="nav-item"><a class="nav-link" th:href="@{/memberList}" style="padding-left: 5px">회원리스트</a></li>
+			<br>
+			<li class="nav-item"><a class="nav-link" th:href="@{/getCashListByDate}" style="padding-left: 5px">일별 가계부</a></li>
+			<br>
+			<li class="nav-item"><a class="nav-link" th:href="@{/getCashListByMonth}" style="padding-left: 5px">월별 가계부</a></li>
+			<br>
+			<li class="nav-item"><a class="nav-link" th:href="@{/boardList}" style="padding-left: 5px">게시판</a></li>
+			<br>
+			<li class="nav-item"><a class="nav-link" th:href="@{/logout}" style="padding-left: 5px">로그아웃</a></li>
+		</ul>
+		
+		<ul class="navbar-nav" th:if="${session.loginMember.memberLevel} == 2">
 			<li class="nav-item"><a class="nav-link" th:href="@{/home}" style="padding-left: 5px">홈</a></li>
 			<br>
 			<li class="nav-item"><a class="nav-link" th:href="@{/memberInfo}" style="padding-left: 5px">회원정보</a></li>
@@ -26,6 +40,7 @@
 			<li class="nav-item"><a class="nav-link" th:href="@{/logout}" style="padding-left: 5px">로그아웃</a></li>
 		</ul>
 	</div>
+	
 	<!-- fragment2 -->
 	
 	<!-- fragment3 -->

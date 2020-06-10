@@ -9,7 +9,14 @@ public class Member {
 	private String memberEmail;
 	private String memberDate;
 	private String memberPic;
+	private int memberLevel;
 
+	public int getMemberLevel() {
+		return memberLevel;
+	}
+	public void setMemberLevel(int memberLevel) {
+		this.memberLevel = memberLevel;
+	}
 	public String getMemberPic() {
 		return memberPic;
 	}
@@ -62,7 +69,7 @@ public class Member {
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberAddr=" + memberAddr + ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail
-				+ ", memberDate=" + memberDate + ", memberPic=" + memberPic + "]";
+				+ ", memberDate=" + memberDate + ", memberPic=" + memberPic + ", memberLevel=" + memberLevel + "]";
 	}
 	@Override
 	public int hashCode() {

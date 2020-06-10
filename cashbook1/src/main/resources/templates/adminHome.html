@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <style>
-    body {
+    #body {
         padding: 0;
         margin: 0;
         width: 100%;
@@ -18,6 +18,7 @@
     }
     
     #aside {
+    	position: fixed;
     	float: left;
         width: 200px;
         height: 100%;
@@ -32,7 +33,7 @@
         background: white;
     }
 </style>
-<title>Insert title here</title>
+<title>AdminHome.html</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -44,50 +45,15 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-	$('#btn').click(function() {
-		$('#myform').submit();
-	});
-});
-</script>
 </head>
 <body>
 <div id="body">
 <div id="aside" th:include="/include/menu::sidemenu"></div>
 <div id="section">
-	<h1>게시판</h1>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>글번호</th>
-				<th>글제목</th>
-				<th>작성자</th>
-				<th>작성날짜</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="list : ${list}">
-				<td th:text="${list.boardNo}"></td> <!-- 내림차순으로 인덱스 정렬해야됨 -->
-				<td>
-					<a th:href="@{/boardDetail(boardNo=${list.boardNo})}" th:text="${list.boardTitle}"></a>
-				</td>
-				<td th:text="${list.memberId}"></td>
-				<td th:text="${list.boardDate}"></td>
-			</tr>
-		</tbody>
-	</table>
-	<a th:href="@{/addBoard}">입력</a> 
-	<form id="myform" method="get" th:action="@{/boardList}">
+		<h1>home</h1>
 		<div>
-			<input type="text" name="searchBoard" />
-			<button id="btn" type="button">검색</button>
+			관리자 페이지
 		</div>
-	</form>
-	<div>
-		<a th:if="${currentPage > 1}" th:href="@{/boardList(currentPage=${currentPage-1})}">이전</a>
-		<a th:if="${currentPage < lastPage}" th:href="@{/boardList(currentPage=${currentPage+1})}">다음</a>
-	</div>
 </div>
 </div>
 </body>

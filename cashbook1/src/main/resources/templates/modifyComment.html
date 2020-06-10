@@ -20,7 +20,6 @@
     background-color: #FF007F;
     color: #FFF; }
     #body {
-    	
         padding: 0;
         margin: 0;
         width: 100%;
@@ -76,7 +75,7 @@ $(document).ready(function() {
 		$('#listform').submit();
 	});
 });
-</script>
+</script>	
 </head>
 <body>
 <div id="body">
@@ -126,7 +125,7 @@ $(document).ready(function() {
 					<td th:text="${list.memberId}"></td>
 					<td>
 						<input type="text" name="commentContents" th:value="${list.commentContents}" />
-						<button id="btn2" type="button">입력</button>
+						<button id="btn2" type="button">수정</button>
 					</td>
 					<td th:text="${list.commentDate}"></td>
 					<td><a th:href="@{/removeComment(commentNo=${list.commentNo},boardNo=${list.boardNo})}">삭제</a></td>

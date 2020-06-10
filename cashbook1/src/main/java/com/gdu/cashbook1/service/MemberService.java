@@ -2,6 +2,7 @@ package com.gdu.cashbook1.service;
 
 import java.io.File;
 import java.security.cert.Extension;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,14 @@ import com.gdu.cashbook1.vo.MemberForm;
 public class MemberService {
 	@Autowired private MemberMapper memberMapper;
 	@Autowired private JavaMailSender javaMailSender;
-	@Value("D:\\자바\\0521\\cashbook\\cashbook\\cashbook1\\src\\main\\resources\\static\\upload\\")
+	@Value("C:\\Users\\GDJ26\\git\\cashbook\\cashbook1\\src\\main\\resources\\static\\upload\\")
 	private String path;
 
+	/*
+	 * public LoginMember adminLogin(String memberId) {
+		return memberMapper.selectAdmin(memberId);
+	}
+	 */
 	public int getMemberPw(Member member) {
 		// password 추가
 		UUID uuid = UUID.randomUUID(); // UUID타입으로 생성됨
@@ -164,6 +170,11 @@ public class MemberService {
 		memberMapper.removeMember(loginMember);
 	}
 
+	// 회원리스트
+	public List<Member> selectMemberList() {
+		return memberMapper.selectMemberList();
+	}
+	
 	// 회원정보
 	public Member getMemberOne(LoginMember loginMember) {
 		return memberMapper.selectMemberOne(loginMember);

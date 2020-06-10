@@ -1,6 +1,8 @@
 package com.gdu.cashbook1.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,17 @@ public class MemberController {
 	@Autowired private CashService cashService;
 	@Autowired private BoardService boardService;
 	@Autowired private CommentService commentService;
+	
+	// 회원리스트
+	@GetMapping("/memberList")
+	public String memberList(HttpSession session, Model model) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		List<Member> list = memberService.selectMemberList();
+		model.addAttribute("list", list);
+		return "memberList";
+	}
 	
 	@GetMapping("/findMemberPw")
 	public String findMemberPw(HttpSession session) {
@@ -138,7 +151,8 @@ public class MemberController {
 		return "addMember";
 	}
 	
-	@GetMapping("/login") // login Form으로 이동
+	// 로그인 폼
+	@GetMapping("/login") 
 	public String login(HttpSession session) {
 		// 로그인 상태
 		if(session.getAttribute("loginMember") != null) {
@@ -147,21 +161,34 @@ public class MemberController {
 		// 로그인 상태가 아닐때
 		return "login";
 	}
-	@PostMapping("/login") // login Action
+	
+	// 로그인 액션
+	@PostMapping("/login") 
 	public String login(Model model, LoginMember loginMember, HttpSession session) { // HttpSession session = request.getSession()
 		// 로그인 상태
 		if(session.getAttribute("loginMember") != null) {
 			return "redirect:/";
 		}
 		LoginMember returnLoginMember = memberService.login(loginMember);
+		// LoginMember adminLogin = memberService.adminLogin(loginMember.getMemberId());
+		System.out.println(loginMember.getMemberId()+"<--loginMember.memberId");
+		// System.out.println(adminLogin.getMemberId()+"<--adminLogin.memberId");
+		
 		if(returnLoginMember == null) { //로그인 실패시
 			model.addAttribute("msg", "아이디와 비밀번호를 확인하세요");
 			return "login";
-		} else { //로그인 성공시
+		} 
+		
+		else if(returnLoginMember.getMemberLevel() == 1) { //관리자 로그인 성공시
+			session.setAttribute("loginMember", returnLoginMember);
+			System.out.println(returnLoginMember.getMemberLevel() +"<--레벨출력");
+			return "redirect:/adminHome";
+		}
+		else{
 			session.setAttribute("loginMember", returnLoginMember);
 			return "redirect:/home";
 		}
-	
+		
 	}
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
