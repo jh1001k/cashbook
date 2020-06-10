@@ -27,6 +27,6 @@ public class IndexController {
 			return "redirect:/login";
 		}
 		return "adminHome";
-		
 	}
+	
 }

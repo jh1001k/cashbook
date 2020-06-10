@@ -201,8 +201,8 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	
-	@GetMapping("/addMember") // 회원가입 Form
+	// 회원가입 Form
+	@GetMapping("/addMember") 
 	public String addMember(HttpSession session) {
 		// 로그인 상태
 		if(session.getAttribute("loginMember") != null) {
@@ -211,7 +211,8 @@ public class MemberController {
 		return "addMember";
 	}
 	
-	@PostMapping("/addMember") // 회원가입 Action
+	// 회원가입 Action
+	@PostMapping("/addMember") 
 	public String addMember(MemberForm memberForm, HttpSession session) { // Command 객체, 도메인 객체
 		// 로그인 상태
 		if(session.getAttribute("loginMember") != null) {

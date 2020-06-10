@@ -7,4 +7,12 @@
 		SELECT category_name categoryName
 		FROM category
 	</select>
+	<!-- 카테고리 추가 -->
+	<insert id="insertCategory" parameterType="com.gdu.cashbook1.vo.Category">
+		INSERT INTO category(
+			category_name
+		) VALUES (
+			#{categoryName}
+		)
+	</insert>
 </mapper>

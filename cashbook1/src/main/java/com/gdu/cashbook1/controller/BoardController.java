@@ -77,6 +77,7 @@ public class BoardController {
 		
 		return "boardList";
 	}
+	
 	// 게시글 입력
 	@GetMapping("/addBoard")
 	public String addBoard(HttpSession session) {
@@ -96,6 +97,7 @@ public class BoardController {
 		boardService.addBoard(board);
 		return "redirect:/boardList";
 	}
+	
 	// 게시글 상세 내용
 	@GetMapping("/boardDetail")
 	public String boardDetail(HttpSession session, Model model, @RequestParam("boardNo") int boardNo) {
