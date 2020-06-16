@@ -41,7 +41,7 @@ $(document).ready(function(){
 <div align="center">
 	<br><br><br><br>
 	<h1>로그인</h1>
-	<form id="loginForm" method="post" action="/login">
+	<form id="loginForm" method="post" th:action="@{/login}">
 		<div style="padding:10px;">
 			<input type="text"  placeholder="아이디" id="memberId" name="memberId"  class="col-sm-4" />
 	 	</div>
@@ -61,7 +61,7 @@ $(document).ready(function(){
 	 	</div>
 	 	<br>
 	 	<div>
-	 		<a href="/addMember" class="btn col-sm-4">회원가입</a>
+	 		<a th:href="@{/addMember}" class="btn col-sm-4">회원가입</a>
 	 	</div>
  	</form>
 </div>

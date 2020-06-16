@@ -60,7 +60,7 @@ $(document).ready(function(){
 			helperInit();
 			$('#addrHelper').text("주소를 입력하세요");
 			$('#memberAddr').focus();
-		} else if($('#memberPhone').val().length === 0) {
+		} else if($('#memberPhone').val().length === 0) {	
 			helperInit();
 			$('#phoneHelper').text("번호를 입력하세요");
 			$('#memberPhone').focus();
@@ -88,7 +88,7 @@ $(document).ready(function(){
 	<br><br><br><br>
 		<h1>회원가입</h1>
 		<br><br>
-		<form id="ifForm" method="post" action="/checkMemberId">
+		<form id="ifForm" method="post" th:action="@{/checkMemberId}">
 			<div align="left" class="col-sm-4 ">
 				아이디 중복 확인
 			</div>
@@ -97,9 +97,9 @@ $(document).ready(function(){
 				<button id="idBtn" style="position=relative, left:200px" type="button">중복체크</button>
 				<span id="memberIdCheckHelper"></span>
 				<span th:text="${msg}"></span>
-			</div>
+			</div>1
 		</form>
-		<form id="myform" method="post" action="/addMember" enctype="multipart/form-data">
+		<form id="myform" method="post" th:action="@{/addMember}" enctype="multipart/form-data">
 			<div align="left" class="col-sm-4 ">
 				사진
 			</div>

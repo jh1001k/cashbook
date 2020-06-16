@@ -82,7 +82,7 @@ $(document).ready(function() {
 	<div align="center">
 		<h3>수입/지출 수정 </h3>
 	</div>
-	<form method="post" action="/modifyCashByDate" id="myform">
+	<form method="post" th:action="@{/modifyCashByDate}" id="myform">
 		<table class="table" th:each="cashNoList : ${cashNoList}">
 			<tr>
 				<td>카테고리</td>
