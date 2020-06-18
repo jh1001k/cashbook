@@ -23,7 +23,7 @@ import com.gdu.cashbook1.vo.MemberForm;
 public class MemberService {
 	@Autowired private MemberMapper memberMapper;
 	@Autowired private JavaMailSender javaMailSender;
-	@Value("C:\\Users\\GDJ26\\git\\cashbook\\cashbook1\\src\\main\\resources\\static\\upload\\")
+	@Value("/jh1001k/tomcat/webapps/cashbook1/WEB-INF/classes/static/upload/")
 	private String path;
 
 	/*
@@ -156,18 +156,24 @@ public class MemberService {
 	}
 
 	// 회원탈퇴
-	public void removeMember(LoginMember loginMember, String memberId) {
+	public int removeMember(LoginMember loginMember, Member member) {
 		// 1. 멤버 이미지 파일 삭제
 		// 1.1 파일이름 select member_pic from member
-		String memberPic = memberMapper.selectMemberPic(memberId);
+		String memberPic = memberMapper.selectMemberPic(member.getMemberId());
 		File file = new File(path + memberPic);
 		if (file.exists()) { // file.exists() : 경로에 file/directory(folder)가 존재하는지 확인한다.
 			file.delete(); // 존재하는 파일을 삭제함.
 		}
 
 		System.out.println(loginMember.getMemberId() + "로그인아이디");
-		memberMapper.addRemoveMember(memberId);
-		memberMapper.removeMember(loginMember);
+		System.out.println(loginMember+"<--memberService.removeMember");
+		int row = memberMapper.removeMember(loginMember);
+		if(row == 1) {
+			row = memberMapper.addRemoveMember(member.getMemberId());
+		}
+		
+		System.out.println(row+"<--memberService.removeMember");
+		return row;
 	}
 
 	// 회원리스트

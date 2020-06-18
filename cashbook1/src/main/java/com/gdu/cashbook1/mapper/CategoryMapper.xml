@@ -5,11 +5,11 @@
 <mapper namespace="com.gdu.cashbook1.mapper.CategoryMapper">
 	<select id="selectCategory"  resultType="com.gdu.cashbook1.vo.Category">
 		SELECT category_name categoryName
-		FROM category
+		FROM cashbook_category
 	</select>
 	<!-- 카테고리 추가 -->
 	<insert id="insertCategory" parameterType="com.gdu.cashbook1.vo.Category">
-		INSERT INTO category(
+		INSERT INTO cashbook_category(
 			category_name
 		) VALUES (
 			#{categoryName}

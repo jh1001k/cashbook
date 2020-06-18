@@ -6,7 +6,7 @@
 	<!-- 회원 탈퇴시 게시글 삭제 -->
 	<delete id="deleteBoardByMember" parameterType="String">
 		DELETE FROM 
-				board
+				cashbook_board
 		WHERE member_id = #{memberId}
 	</delete>
 	<!-- 페이징 카운트 -->
@@ -14,7 +14,7 @@
 		SELECT
 			COUNT(*)
 		FROM 
-			board
+			cashbook_board
 	</select>
 	<!-- 게시글 제목으로 검색 -->
 	<select id="selectSearchBoard" resultType="com.gdu.cashbook1.vo.Board">
@@ -24,14 +24,14 @@
 			member_id memberId,
 			board_date boardDate
 		FROM
-			board
+			cashbook_board
 		WHERE board_title like CONCAT('%', #{searchBoard}, '%')
 		ORDER BY board_no DESC
 	</select>
 	<!-- 게시글 수정 -->
 	<update id="updateBoard" parameterType="com.gdu.cashbook1.vo.Board">
 		UPDATE
-			board
+			cashbook_board
 		SET
 			board_title = #{boardTitle},
 			board_contents = #{boardContents}
@@ -40,7 +40,7 @@
 	<!-- 게시글 삭제 -->
 	<delete id="deleteBoard" parameterType="int">
 		DELETE FROM 
-				board
+				cashbook_board
 		WHERE board_no = #{boardNo}
 	</delete>
 	<!-- 게시글 상세페이지 -->
@@ -52,13 +52,13 @@
 			board_contents boardContents,
 			board_no boardNo
 		FROM 
-			board
+			cashbook_board
 		WHERE
 			board_no = #{boardNo}
 	</select>
 	<!-- 게시글 입력 -->
 	<insert id="insertBoard" parameterType="com.gdu.cashbook1.vo.Board">
-		INSERT INTO board(
+		INSERT INTO cashbook_board(
 			board_title,
 			member_id,
 			board_contents,
@@ -77,7 +77,7 @@
 			board_title boardTitle,
 			member_id memberId,
 			board_date boardDate
-		FROM board
+		FROM cashbook_board
 		ORDER BY board_no DESC
 		LIMIT #{beginRow}, #{rowPerPage}
 	</select>

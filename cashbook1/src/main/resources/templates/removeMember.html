@@ -2,6 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        position: relative;
+        overflow-y: auto;
+    }
+    
+    #aside {
+    	float: left;
+        width: 200px;
+        height: 100%;
+        position: fixed;
+        background:  #D1B2FF;
+        overflow: auto;
+        
+    }
+    
+    #section {
+        margin-left: 300px;
+        background: white;
+    }
+</style>
 <title>Insert title here</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -15,30 +45,45 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
+let helperInit = function() {
+	$("#pw2Helper").text("");
+};
 $(document).ready(function() {
-	$('#btn').click(function() {
-		$('#myform').submit();
+	$('#btn').click(function(){
+	if($('#memberPw').val() != $('#memberPw2').val()) {
+		helperInit();
+		$('#pw2Helper').text("위의 비밀번호와 입력한 값이 맞지 않습니다.");
+		$('#memberPw2').focus();
+	} else {
+			$('#myform').submit();
+		}
 	});
 });
 </script>
 </head>
 <body>
-	<form id="myform" method="post" th:action="@{/removeMember}">
+<div id="body">
+<div id="aside" th:include="/include/menu::sidemenu"></div>
+<div id="section">
+	<form id="myform" method="post" th:action="@{/removeMember(memberId=${memberId})}">
 		<div>
 			비밀번호 입력
 		</div>
 		<div>
-			<input type="text" id="memberPw" name="memberPw" />
+			<input type="password" id="memberPw" name="memberPw" />
 		</div>
 		<div>
 			비밀번호 확인
 		</div>
 		<div>
-			<input type="text" id="memberPw2" name="memberPw2" />
+			<input type="password" id="memberPw2" />
+			<span id="pw2Helper"></span>
 		</div>
 		<div>
 			<button type="button" id="btn">회원 탈퇴</button>
 		</div>
 	</form> 
+</div>
+</div>
 </body>
 </html>

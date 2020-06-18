@@ -69,6 +69,13 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
+	if($('#memberPw').val() != "" || $('#memberPw2').val() != ""){
+		if($('#memberPw').val() == $('#memberPw2').val()) {
+			
+		} else {
+			alert
+		}
+	}
 	$('#btn').click(function() {
 		$('#myform').submit();
 	});
@@ -120,20 +127,26 @@ $(document).ready(function() {
 			<td><input type="text"  th:value="${member.memberDate}" name="memberDate"></td>
 		</tr>
 		<tr>
-			<td bgcolor="hotpink">비밀번호</td>
+			<td bgcolor="hotpink">현재 비밀번호</td>
+			<td>
+				<input type="password" id="currentMemberPw" placeholder="현재 비밀번호 입력" class="col-sm-4" />
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="hotpink">변경 할 비밀번호</td>
 			<td>
 				<input type="password" name="memberPw" id="memberPw" placeholder="비밀번호 입력" class="col-sm-4" />
 			</td>
 		</tr>
 		<tr>
-			<td bgcolor="hotpink">비밀번호 확인</td>
+			<td bgcolor="hotpink">변경 할 비밀번호 확인</td>
 			<td>
 				<input type="password" id="memberPw2" placeholder="비밀번호 확인 입력" class="col-sm-4" />
 			</td>
 		</tr>
 	</table>
 	<div>
-	<button id="btn" class="btn btn-primary" type="button">정보수정</button>
+		<button id="btn" class="btn btn-primary" type="button">정보수정</button>
 	</div>
 	</form>
 </div>

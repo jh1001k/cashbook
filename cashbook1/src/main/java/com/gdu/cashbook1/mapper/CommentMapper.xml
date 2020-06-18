@@ -6,21 +6,21 @@
 <!-- 게시글 삭제시 댓글 삭제 -->
 <delete id="deleteCommentByBoard" parameterType="int">
 	DELETE FROM
-		comment
+		cashbook_comment
 	WHERE
 		board_no = #{boardNo}
 </delete>
 <!-- 회원탈퇴시 댓글 삭제 -->
 <delete id="deleteCommentByMember" parameterType="String">
 	DELETE FROM
-		comment
+		cashbook_comment
 	WHERE
 		member_id = #{memberId}
 </delete>
 <!-- 댓글 삭제 -->
 <delete id="deleteComment" parameterType="com.gdu.cashbook1.vo.Comment">
 	DELETE FROM
-		comment
+		cashbook_comment
 	WHERE
 		comment_no = #{commentNo}
 	AND
@@ -29,7 +29,7 @@
 <!-- 댓글 수정 -->
 <update id="updateComment" parameterType="com.gdu.cashbook1.vo.Comment">
 	UPDATE
-		comment
+		cashbook_comment
 	SET
 		comment_contents = #{commentContents}
 	WHERE
@@ -45,12 +45,12 @@
 		member_id memberId,
 		comment_date commentDate,
 		board_no boardNo
-	FROM comment
+	FROM cashbook_comment
 	WHERE board_no = #{boardNo}
 </select>
 <!-- 댓글 입력 -->
 <insert id="insertComment" parameterType="com.gdu.cashbook1.vo.Comment">
-	INSERT INTO comment(
+	INSERT INTO cashbook_comment(
 			comment_contents,
 			member_id,
 			board_no,

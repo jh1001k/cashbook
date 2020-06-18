@@ -106,19 +106,34 @@ public class MemberController {
 	     model.addAttribute("loginMember", loginMember);
 	     return "redirect:/memberInfo";
 	}
-	// 회원탈퇴
+	// 회원탈퇴 
 	@GetMapping("/removeMember") 
-	public String removeMember(HttpSession session, LoginMember loginMember, String memberId) {
+	public String removeMember(HttpSession session, LoginMember loginMember, String memberId, Model model) {
 		if(session.getAttribute("loginMember") == null) {
 			return "redirect:/";
 		}
-		cashService.removeCashByMember(memberId);
-		commentService.removeCommentByMember(memberId);
-		boardService.removeBoardByMember(memberId);
-		memberService.removeMember(loginMember, memberId);
+		model.addAttribute("memberId", memberId);
 		
-		session.invalidate(); // 세션 초기화
-		return "redirect:/";
+		return "removeMember";
+	}
+	// 회원 탈퇴 비밀번호 확인
+	@PostMapping("/removeMember")
+	public String removeMember(HttpSession session, LoginMember loginMember, Member member) {
+		if(session.getAttribute("loginMember") == null) {
+			return "redirect:/";
+		}
+		int row = memberService.removeMember(loginMember, member);
+		System.out.println(row+"<--test");
+		if(row == 0) {
+			return "removeMember";
+		} else {
+			cashService.removeCashByMember(member.getMemberId());
+			commentService.removeCommentByMember(member.getMemberId());
+			boardService.removeBoardByMember(member.getMemberId());
+			memberService.removeMember(loginMember, member);
+			session.invalidate(); // 세션 초기화	
+			return "redirect:/";
+		}
 	}
 	//회원정보
 	@GetMapping("/memberInfo") 
